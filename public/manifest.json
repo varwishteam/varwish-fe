@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "VarWish",
+  "name": "VarWish: A variable wishlist",
   "icons": [
     {
       "src": "favicon.ico",
