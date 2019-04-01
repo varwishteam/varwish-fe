@@ -6,13 +6,16 @@
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.2",
+    "prop-types": "^15.7.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-i18next": "^10.6.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "redux": "^4.0.1",
-    "redux-form": "^8.1.0"
+    "redux-form": "^8.1.0",
+    "redux-persist": "^5.10.0",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
     "start": "BROWSER=none react-scripts start",

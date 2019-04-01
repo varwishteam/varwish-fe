@@ -13,6 +13,9 @@ import { TextField } from '@material-ui/core';
 
 import './Login.css';
 
+/**
+ * Login page
+ */
 export default class Login extends Component {
   constructor(props) {
     super(props);

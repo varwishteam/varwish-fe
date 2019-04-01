@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { AppBar, Typography, Button, Toolbar } from '@material-ui/core';
 
+/**
+ * Home page
+ */
 export default class Home extends Component {
   render() {
     return (
