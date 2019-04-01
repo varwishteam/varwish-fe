@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Provider } from 'react-redux';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
-import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import indigo from '@material-ui/core/colors/indigo';
+import deepOrange from '@material-ui/core/colors/deepOrange';
 
 import Login from './pages/Login';
 import Home from './pages/Home';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: indigo,
+    secondary: deepOrange
+  },
+  typography: {
+    useNextVariants: true
+  }
+});
 
 /**
  * The base of the app, contains all first level routes
@@ -14,7 +25,7 @@ import Home from './pages/Home';
 class App extends Component {
   render() {
     return (
-      <MuiThemeProvider>
+      <MuiThemeProvider theme={theme}>
         <CssBaseline />
         <Router>
           <Route exact path="/" component={Home} />
