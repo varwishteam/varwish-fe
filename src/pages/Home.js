@@ -1,25 +1,51 @@
-import React, { Component } from 'react';
+import { AppBar, Button, Toolbar, Typography } from '@material-ui/core';
+import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { AppBar, Typography, Button, Toolbar } from '@material-ui/core';
+import AuthButton from '../components/AuthButton';
 
 /**
  * Home page
  */
-export default class Home extends Component {
-  render() {
+function Home({ user, isLoggedIn }) {
+  if (isLoggedIn) {
     return (
       <React.Fragment>
-        <AppBar position="static">
+        <Typography>
+          Welcome {user.firstName} {user.lastName}
+        </Typography>
+        <Button component={Link} to="/wishlists/1">
+          Wishlist 1
+        </Button>
+      </React.Fragment>
+    );
+  } else {
+    return (
+      <React.Fragment>
+        <AppBar position="fixed">
           <Toolbar>
-            <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
+            <Typography variant="h6" color="inherit" noWrap>
               VarWish
             </Typography>
-            <Button component={Link} to="/login" color="inherit">
-              Login
-            </Button>
+            <AuthButton type="button" />
           </Toolbar>
         </AppBar>
+        Not logged in
       </React.Fragment>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  user: state.userReducer.user,
+  isLoggedIn: state.userReducer.isLoggedIn
+});
+
+const mapDispatchToProps = dispatch => ({
+  // something to dispatch
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);

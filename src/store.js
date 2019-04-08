@@ -1,20 +1,27 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import wishlists from 'modules/wishlists';
+import userReducer from './reducers/userReducer';
+import wishlistsReducer from './reducers/wishlistsReducer';
 
 /**
  * Redux setup
  */
 
 const rootReducer = combineReducers({
-  wishlists
+  wishlistsReducer,
+  userReducer
 });
 
 const store = createStore(
   rootReducer,
+  {
+    userReducer: {
+      isLoggedIn: false
+    }
+  },
   compose(
     applyMiddleware(thunk),
-    window.devToolsExtension ? window.devToolsExtension : f => f
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
 

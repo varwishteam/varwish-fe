@@ -1,41 +1,45 @@
+import {
+  Avatar,
+  Button,
+  Paper,
+  Typography,
+  TextField,
+  Checkbox,
+  FormControlLabel
+} from '@material-ui/core';
+import { LockOutlined as LockOutlinedIcon } from '@material-ui/icons';
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import { TextField } from '@material-ui/core';
-
+import { Redirect } from 'react-router-dom';
+import { fakeAuth } from '../utils/api';
 import './Login.scss';
 
 /**
  * Login page
  */
 export default class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-      rememberMe: false
-    };
-  }
+  state = {
+    email: '',
+    password: '',
+    rememberMe: false,
+    redirectToReferrer: false
+  };
+
+  // FIXME: Just for testing
+  login = e => {
+    e.preventDefault();
+    fakeAuth.authenticate(() => {
+      this.setState({ redirectToReferrer: true });
+    });
+  };
 
   render() {
+    let { from } = this.props.location.state || { from: { pathname: '/' } };
+    let { redirectToReferrer } = this.state;
+
+    if (redirectToReferrer) return <Redirect to={from} />;
+
     return (
       <div className="login-container">
-        <Button
-          component={Link}
-          to="/"
-          style={{ position: 'fixed', top: '1em', left: '1em' }}
-        >
-          <ChevronLeft />
-          Back
-        </Button>
         <Paper className="login-box">
           <Avatar className="login-box__avatar">
             <LockOutlinedIcon />
@@ -75,6 +79,7 @@ export default class Login extends Component {
               variant="contained"
               color="primary"
               className="login-form__log-in"
+              onClick={this.login}
             >
               Log in
             </Button>
