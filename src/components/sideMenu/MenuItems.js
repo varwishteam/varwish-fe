@@ -12,6 +12,9 @@ import { Link } from 'react-router-dom';
 import AuthButton from '../AuthButton';
 import '../../styles/Link.scss';
 
+/**
+ * A list of links which is shown in the main navigation drawer
+ */
 export default function MenuItems({ classes }) {
   return (
     <div>

@@ -6,6 +6,9 @@ import Login from '../pages/Login';
 import WishlistDetail from '../pages/WishlistDetail';
 import SideMenu from './SideMenu';
 
+/**
+ * All first-level routes go here
+ */
 function Routes({ isLoggedIn }) {
   return (
     <React.Fragment>
@@ -32,6 +35,9 @@ function Routes({ isLoggedIn }) {
   );
 }
 
+/**
+ * This component automatically redirects unauthenticated users to the Login page
+ */
 function PrivateRoute({ component: Component, isLoggedIn, ...rest }) {
   return (
     <Route

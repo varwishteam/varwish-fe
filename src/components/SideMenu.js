@@ -13,6 +13,9 @@ import React from 'react';
 import styles from './sideMenu/SideMenuStyles';
 import MenuItems from './sideMenu/MenuItems';
 
+/**
+ * Main navigation drawer. Visible all the time on desktop, hamburger menu to open it on mobile
+ */
 class SideMenu extends React.Component {
   state = {
     mobileOpen: false
@@ -44,7 +47,6 @@ class SideMenu extends React.Component {
         </AppBar>
 
         <nav className={classes.drawer}>
-          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
           <Hidden smUp implementation="css">
             <Drawer
               container={this.props.container}

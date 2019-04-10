@@ -10,7 +10,7 @@ import { store, persistor } from './store';
 import theme from './themeConfig';
 
 /**
- * The base of the app
+ * The base of the app, setup for redux, redux-persist, material-ui theme and react-router
  */
 class App extends Component {
   render() {

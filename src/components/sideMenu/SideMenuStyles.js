@@ -1,5 +1,8 @@
 export const drawerWidth = 240;
 
+/**
+ * Css in Js styles copied from the Material UI docs for Drawer
+ */
 const styles = theme => ({
   root: {
     display: 'flex'

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import AuthButton from '../components/AuthButton';
 
 /**
- * Home page
+ * Home page, contains a list of wishlists
  */
 function Home({ user, isLoggedIn }) {
   if (isLoggedIn) {

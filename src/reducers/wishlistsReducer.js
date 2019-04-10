@@ -1,9 +1,9 @@
 import { WISHLIST } from '../actions/wishlistsActions';
 
 /**
- * Wishlists reducer
+ * Wishlists reducer, handles the manipulation of state for dispatched WISHLIST actions
  * @param {*} state
- * @param {*} action
+ * @param {type, payload} action
  */
 export default function wishlistsReducer(state = {}, action) {
   switch (action.type) {

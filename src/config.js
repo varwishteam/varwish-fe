@@ -1,5 +1,5 @@
 /**
- * Put all configuration here
+ * All configuration in one place
  */
 const config = {};
 

@@ -6,7 +6,7 @@ import userReducer from './reducers/userReducer';
 import wishlistsReducer from './reducers/wishlistsReducer';
 
 /**
- * Redux setup
+ * Redux, redux-persist, redux-thunk and Redux Dev Tools setup
  */
 
 const rootReducer = combineReducers({
