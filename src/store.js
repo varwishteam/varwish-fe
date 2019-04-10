@@ -1,4 +1,6 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
 import userReducer from './reducers/userReducer';
 import wishlistsReducer from './reducers/wishlistsReducer';
@@ -12,8 +14,15 @@ const rootReducer = combineReducers({
   userReducer
 });
 
-const store = createStore(
-  rootReducer,
+const persistConfig = {
+  key: 'root',
+  storage
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = createStore(
+  persistedReducer,
   {
     userReducer: {
       isLoggedIn: false
@@ -27,4 +36,4 @@ const store = createStore(
   )
 );
 
-export default store;
+export const persistor = persistStore(store);

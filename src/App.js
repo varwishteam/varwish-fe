@@ -1,10 +1,12 @@
+import { CircularProgress } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { PersistGate } from 'redux-persist/integration/react';
 import Routes from './components/Routes';
-import store from './store';
+import { store, persistor } from './store';
 import theme from './themeConfig';
 
 /**
@@ -14,12 +16,14 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <Router>
-            <Routes />
-          </Router>
-        </MuiThemeProvider>
+        <PersistGate loading={<CircularProgress />} persistor={persistor}>
+          <MuiThemeProvider theme={theme}>
+            <CssBaseline />
+            <Router>
+              <Routes />
+            </Router>
+          </MuiThemeProvider>
+        </PersistGate>
       </Provider>
     );
   }
