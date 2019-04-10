@@ -1,55 +1,17 @@
 import {
   AppBar,
-  Divider,
   Drawer,
   Hidden,
   IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Toolbar,
   Typography
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import {
-  Dashboard as DashboardIcon,
-  Menu as MenuIcon
-} from '@material-ui/icons';
+import { Menu as MenuIcon } from '@material-ui/icons';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router-dom';
-import AuthButton from './AuthButton';
-const drawerWidth = 240;
-
-const styles = theme => ({
-  root: {
-    display: 'flex'
-  },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
-      flexShrink: 0
-    }
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1
-  },
-  menuButton: {
-    marginRight: 20,
-    [theme.breakpoints.up('sm')]: {
-      display: 'none'
-    }
-  },
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: drawerWidth
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3
-  }
-});
+import styles from './sideMenu/SideMenuStyles';
+import MenuItems from './sideMenu/MenuItems';
 
 class SideMenu extends React.Component {
   state = {
@@ -62,27 +24,6 @@ class SideMenu extends React.Component {
 
   render() {
     const { classes, theme, children } = this.props;
-
-    const drawer = (
-      <div>
-        <Hidden smDown>
-          <div className={classes.toolbar} />
-        </Hidden>
-        <Divider />
-        <List>
-          <Link to="/" style={{ textDecoration: 'none' }} onClick={this.ha}>
-            <ListItem button>
-              <ListItemIcon>
-                <DashboardIcon />
-              </ListItemIcon>
-              <ListItemText primary="Wishlists" />
-            </ListItem>
-          </Link>
-        </List>
-        <Divider />
-        <AuthButton type="list-item" />
-      </div>
-    );
 
     return (
       <div className={classes.root}>
@@ -115,7 +56,7 @@ class SideMenu extends React.Component {
                 paper: classes.drawerPaper
               }}
             >
-              {drawer}
+              <MenuItems classes={classes} />
             </Drawer>
           </Hidden>
           <Hidden xsDown implementation="css">
@@ -126,7 +67,7 @@ class SideMenu extends React.Component {
               variant="permanent"
               open
             >
-              {drawer}
+              <MenuItems classes={classes} />
             </Drawer>
           </Hidden>
         </nav>
@@ -141,7 +82,8 @@ class SideMenu extends React.Component {
 
 SideMenu.propTypes = {
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired,
+  children: PropTypes.node.isRequired
 };
 
 export default withStyles(styles, { withTheme: true })(SideMenu);

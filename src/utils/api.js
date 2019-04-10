@@ -1,5 +1,5 @@
 import { USER } from '../actions/userActions';
-import store from '../store';
+import { store } from '../store';
 /**
  * All api call wrappers go in this file
  */

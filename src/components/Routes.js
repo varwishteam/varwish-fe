@@ -56,11 +56,7 @@ const mapStateToProps = state => ({
   isLoggedIn: state.userReducer.isLoggedIn
 });
 
-const mapDispatchToProps = dispatch => ({
-  // something to dispatch
-});
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(Routes);

@@ -9,7 +9,13 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { fakeAuth } from '../utils/api';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import '../styles/Link.scss';
 
+/**
+ * This button displays 'Log In' when the user first comes to the page
+ * and 'Log Out' when the user is logged in
+ */
 const AuthButton = withRouter(({ history, type, isLoggedIn }) =>
   type === 'button' ? (
     isLoggedIn ? (
@@ -42,7 +48,7 @@ const AuthButton = withRouter(({ history, type, isLoggedIn }) =>
       <ListItemText primary="Log Out" />
     </ListItem>
   ) : (
-    <Link to="/login" style={{ textDecoration: 'none' }} color="inherit">
+    <Link to="/login" color="inherit" className="link--no-underline">
       <ListItem button>
         <ListItemIcon>
           <ExitToAppIcon />
@@ -53,16 +59,16 @@ const AuthButton = withRouter(({ history, type, isLoggedIn }) =>
   )
 );
 
+AuthButton.propTypes = {
+  /* Type of AuthButton, classical button or styled as a list item */
+  type: PropTypes.oneOf(['button', 'list-item'])
+};
+
 const mapStateToProps = state => ({
   isLoggedIn: state.userReducer.isLoggedIn
 });
 
-const mapDispatchToProps = dispatch => ({
-  // login: loginUser(),
-  // logout: logoutUser()
-});
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(AuthButton);
