@@ -1,21 +1,39 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { persistReducer, persistStore } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
-import wishlists from 'modules/wishlists';
+import userReducer from './reducers/userReducer';
+import wishlistsReducer from './reducers/wishlistsReducer';
 
 /**
- * Redux setup
+ * Redux, redux-persist, redux-thunk and Redux Dev Tools setup
  */
 
 const rootReducer = combineReducers({
-  wishlists
+  wishlistsReducer,
+  userReducer
 });
 
-const store = createStore(
-  rootReducer,
+const persistConfig = {
+  key: 'root',
+  storage
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = createStore(
+  persistedReducer,
+  {
+    userReducer: {
+      isLoggedIn: false
+    }
+  },
   compose(
     applyMiddleware(thunk),
-    window.devToolsExtension ? window.devToolsExtension : f => f
+    window.__REDUX_DEVTOOLS_EXTENSION__
+      ? window.__REDUX_DEVTOOLS_EXTENSION__()
+      : f => f // just a dummy function
   )
 );
 
-export default store;
+export const persistor = persistStore(store);
