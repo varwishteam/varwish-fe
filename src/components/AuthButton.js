@@ -7,7 +7,7 @@ import {
 import { ExitToApp as ExitToAppIcon } from '@material-ui/icons';
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { fakeAuth } from '../utils/api';
+import fakeAuth from '../utils/api';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import '../styles/Link.scss';

@@ -10,7 +10,7 @@ import {
 import { LockOutlined as LockOutlinedIcon } from '@material-ui/icons';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { fakeAuth } from '../utils/api';
+import fakeAuth from '../utils/api';
 import './Login.scss';
 
 /**
@@ -20,16 +20,25 @@ export default class Login extends Component {
   state = {
     email: '',
     password: '',
-    rememberMe: false,
+    rememberMe: 'yes',
     redirectToReferrer: false
   };
 
   // FIXME: Just for testing
   login = e => {
     e.preventDefault();
-    fakeAuth.authenticate(() => {
-      this.setState({ redirectToReferrer: true });
-    });
+    fakeAuth
+      .authenticate(this.state.email, this.state.password)
+      .then(() => {
+        this.setState({ redirectToReferrer: true });
+      })
+      .catch(error => {
+        this.setState({ errorMessage: error });
+      });
+  };
+
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.value });
   };
 
   render() {
@@ -57,6 +66,8 @@ export default class Login extends Component {
               autoComplete="email"
               margin="normal"
               variant="outlined"
+              value={this.state.email}
+              onChange={this.handleChange('email')}
             />
 
             <TextField
@@ -67,10 +78,18 @@ export default class Login extends Component {
               autoComplete="current-password"
               margin="normal"
               variant="outlined"
+              value={this.state.password}
+              onChange={this.handleChange('password')}
             />
             <FormControlLabel
               className="login-form__remember-me"
-              control={<Checkbox value="remember" color="primary" />}
+              control={
+                <Checkbox
+                  value={this.state.rememberMe}
+                  onChange={this.handleChange('rememberMe')}
+                  color="primary"
+                />
+              }
               label="Remember me"
             />
             <Button

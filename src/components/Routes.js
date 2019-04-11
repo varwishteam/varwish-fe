@@ -13,12 +13,12 @@ function Routes({ isLoggedIn }) {
   return (
     <React.Fragment>
       <Switch>
-        {!isLoggedIn ? <Route exact path="/" component={Home} /> : null}
+        {!isLoggedIn && <Route exact path="/" component={Home} />}
         <Route path="/login" component={Login} />
         {/* <Route path="/signup" compoennt={SignUp} /> */}
         <SideMenu>
           {/* <Switch> */}
-          {isLoggedIn ? <Route exact path="/" component={Home} /> : null}
+          {isLoggedIn && <Route exact path="/" component={Home} />}
           <PrivateRoute
             path="/wishlists/:wishlistId"
             component={WishlistDetail}
