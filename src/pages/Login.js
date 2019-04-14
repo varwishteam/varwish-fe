@@ -1,24 +1,15 @@
-import {
-  Avatar,
-  Button,
-  Paper,
-  Typography,
-  TextField,
-  Checkbox,
-  FormControlLabel
-} from '@material-ui/core';
-import { LockOutlined as LockOutlinedIcon } from '@material-ui/icons';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import fakeAuth from '../utils/api';
-import './Login.scss';
+import './login/Login.scss';
 
 /**
- * Login page
+ * Login page, a simple form with these fields: Username or Email, Password
+ * and a RememberMe checkbox
  */
 export default class Login extends Component {
   state = {
-    email: '',
+    username: '',
     password: '',
     rememberMe: 'yes',
     redirectToReferrer: false
@@ -28,7 +19,7 @@ export default class Login extends Component {
   login = e => {
     e.preventDefault();
     fakeAuth
-      .authenticate(this.state.email, this.state.password)
+      .authenticate(this.state.username, this.state.password)
       .then(() => {
         this.setState({ redirectToReferrer: true });
       })
@@ -43,70 +34,63 @@ export default class Login extends Component {
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } };
-    const { redirectToReferrer } = this.state;
+    const { username, password, rememberMe, redirectToReferrer } = this.state;
 
     if (redirectToReferrer) return <Redirect to={from} />;
 
     return (
-      <div className="login-container">
-        <Paper className="login-box">
-          <Avatar className="login-box__avatar">
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5" className="login-box__title">
-            Log in to VarWish
-          </Typography>
-          <form className="login-form">
-            <TextField
-              id="login-form__email"
-              className="login-form__email"
-              label="Email"
-              type="email"
-              name="email"
-              autoComplete="email"
-              margin="normal"
-              variant="outlined"
-              value={this.state.email}
-              onChange={this.handleChange('email')}
-            />
+      <div className="wrapper">
+        <form className="form-login">
+          <h1 className="h3 mb-3 font-weight-normal">Please log in</h1>
 
-            <TextField
-              id="login-form__password"
-              className="login-form__password"
-              label="Password"
+          <div className="bmd-form-group">
+            {/* <label htmlFor="email" className="bmd-label-placeholder">
+              Username or Email
+            </label> */}
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              placeholder="Username or Email"
+              value={username}
+              onChange={this.handleChange('username')}
+            />
+          </div>
+
+          <div className="bmd-form-group">
+            {/* <label htmlFor="password" className="bmd-label-placeholder">
+              Password
+            </label> */}
+            <input
               type="password"
-              autoComplete="current-password"
-              margin="normal"
-              variant="outlined"
-              value={this.state.password}
+              className="form-control"
+              id="password"
+              placeholder="Password"
+              value={password}
               onChange={this.handleChange('password')}
             />
-            <FormControlLabel
-              className="login-form__remember-me"
-              control={
-                <Checkbox
-                  value={this.state.rememberMe}
-                  onChange={this.handleChange('rememberMe')}
-                  color="primary"
-                />
-              }
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className="login-form__log-in"
-              onClick={this.login}
-            >
-              Log in
-            </Button>
-          </form>
-        </Paper>
+          </div>
+
+          <div className="checkbox-inline">
+            <label htmlFor="rememberMe">
+              <input
+                type="checkbox"
+                id="rememberMe"
+                value={rememberMe}
+                onChange={this.handleChange('rememberMe')}
+              />
+              Remember me
+            </label>
+          </div>
+
+          <button
+            className="btn btn-lg btn-primary btn-block btn-outline"
+            onClick={this.login}
+          >
+            Log in
+          </button>
+        </form>
       </div>
     );
   }
 }
-
-Login.propTypes = {};
