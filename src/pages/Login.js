@@ -12,6 +12,7 @@ export default class Login extends Component {
     username: '',
     password: '',
     rememberMe: 'yes',
+    backendUrl: '',
     redirectToReferrer: false
   };
 
@@ -19,7 +20,27 @@ export default class Login extends Component {
   login = e => {
     e.preventDefault();
     fakeAuth
-      .authenticate(this.state.username, this.state.password)
+      .authenticate(
+        this.state.username,
+        this.state.password,
+        this.state.backendUrl
+      )
+      .then(() => {
+        this.setState({ redirectToReferrer: true });
+      })
+      .catch(error => {
+        this.setState({ errorMessage: error });
+      });
+  };
+
+  loginSkipServer = e => {
+    e.preventDefault();
+    fakeAuth
+      .authenticateSkipServer(
+        this.state.username,
+        this.state.password,
+        this.state.backendUrl
+      )
       .then(() => {
         this.setState({ redirectToReferrer: true });
       })
@@ -34,7 +55,13 @@ export default class Login extends Component {
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } };
-    const { username, password, rememberMe, redirectToReferrer } = this.state;
+    const {
+      username,
+      password,
+      rememberMe,
+      backendUrl,
+      redirectToReferrer
+    } = this.state;
 
     if (redirectToReferrer) return <Redirect to={from} />;
 
@@ -44,11 +71,22 @@ export default class Login extends Component {
           <h1 className="h3 mb-3 font-weight-normal">Please log in</h1>
 
           <div className="bmd-form-group">
-            {/* <label htmlFor="email" className="bmd-label-placeholder">
-              Username or Email
-            </label> */}
             <input
-              type="email"
+              type="text"
+              className="form-control"
+              id="backend-url"
+              placeholder="Backend URL (just for testing)"
+              value={backendUrl}
+              onChange={this.handleChange('backendUrl')}
+            />
+            <small id="urlHelp" className="form-text text-muted">
+              E.g. http://127.0.0.1:8000/rest-auth/login
+            </small>
+          </div>
+
+          <div className="bmd-form-group">
+            <input
+              type="text"
               className="form-control"
               id="email"
               placeholder="Username or Email"
@@ -58,9 +96,6 @@ export default class Login extends Component {
           </div>
 
           <div className="bmd-form-group">
-            {/* <label htmlFor="password" className="bmd-label-placeholder">
-              Password
-            </label> */}
             <input
               type="password"
               className="form-control"
@@ -88,6 +123,12 @@ export default class Login extends Component {
             onClick={this.login}
           >
             Log in
+          </button>
+          <button
+            className="btn btn-lg btn-primary btn-block btn-outline"
+            onClick={this.loginSkipServer}
+          >
+            Log in skip server (no auth)
           </button>
         </form>
       </div>

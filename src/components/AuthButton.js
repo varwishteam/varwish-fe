@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import fakeAuth from '../utils/api';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 /**
  * This button displays 'Log In' when the user first comes to the page

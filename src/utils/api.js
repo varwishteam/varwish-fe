@@ -1,14 +1,14 @@
 import { USER } from '../actions/userActions';
 import { store } from '../store';
-import config from '../config.js';
+// import config from '../config.js';
 /**
  * All api call wrappers go in this file
  */
 
 /** FIXME: Just for testing */
-function authenticate(callback, email, password) {
+function authenticate(email, password, backendUrl) {
   return new Promise((resolve, reject) => {
-    fetch(config.apiUrl + '/rest-auth/login/', {
+    fetch(backendUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -17,7 +17,7 @@ function authenticate(callback, email, password) {
         username: email,
         email: email,
         password: password
-      }) // FIXME: hash password
+      })
     })
       .then(response => {
         if (response.ok) {
@@ -25,8 +25,8 @@ function authenticate(callback, email, password) {
           store.dispatch({
             type: USER.LOGIN.SUCCESS,
             payload: {
-              firstName: 'Don',
-              lastName: 'Joe'
+              firstName: 'John',
+              lastName: 'Doe'
             }
           });
           resolve();
@@ -41,6 +41,20 @@ function authenticate(callback, email, password) {
       });
   });
 }
+function authenticateSkipServer() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      store.dispatch({
+        type: USER.LOGIN.SUCCESS,
+        payload: {
+          firstName: 'Don',
+          lastName: 'Joe'
+        }
+      });
+      resolve();
+    }, 1000); // fake async
+  });
+}
 
 function signout(callback) {
   setTimeout(callback, 100);
@@ -49,4 +63,4 @@ function signout(callback) {
   });
 }
 
-export default { authenticate, signout };
+export default { authenticate, authenticateSkipServer, signout };
