@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import fakeAuth from '../utils/api';
+import { logOut } from '../utils/api';
 import { connect } from 'react-redux';
 
 /**
@@ -13,7 +13,7 @@ const AuthButton = withRouter(({ history, isLoggedIn }) =>
       type="button"
       className="btn btn-primary btn-block list-group-item"
       onClick={() => {
-        fakeAuth.signout(() => history.push('/'));
+        logOut(() => history.push('/'));
       }}
     >
       <i className="material-icons">close</i>

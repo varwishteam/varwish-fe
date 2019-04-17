@@ -13,24 +13,3 @@ export const USER = {
   LOGIN_: 'USER_LOGIN_ERROR',
   LOGOUT: 'USER_LOGOUT'
 };
-
-// export function loginUser() {
-//   return dispatch => {
-//     // simulation fetch to API
-//     setTimeout(() => {
-//       dispatch({
-//         type: USER.LOGIN,
-//         payload: {
-//           firstName: 'Don', // FIXME:
-//           lastName: 'Joe' // FIXME:
-//         }
-//       });
-//     }, 1000);
-//   };
-// }
-
-// export function logoutUser() {
-//   return {
-//     type: USER.LOGOUT
-//   };
-// }

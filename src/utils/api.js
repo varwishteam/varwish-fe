@@ -1,38 +1,46 @@
 import { USER } from '../actions/userActions';
 import { store } from '../store';
-// import config from '../config.js';
+import config from '../config.js';
 /**
  * All api call wrappers go in this file
  */
 
-/** FIXME: Just for testing */
-function authenticate(email, password, backendUrl) {
+function logIn(email, password) {
   return new Promise((resolve, reject) => {
-    fetch(backendUrl, {
+    fetch(config.apiUrl + 'rest-auth/login/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Origin: config.originUrl
       },
       body: JSON.stringify({
         username: email,
-        email: email,
         password: password
       })
     })
       .then(response => {
         if (response.ok) {
-          console.log('Success:', JSON.stringify(response));
-          store.dispatch({
-            type: USER.LOGIN.SUCCESS,
-            payload: {
-              firstName: 'John',
-              lastName: 'Doe'
-            }
+          response.json().then(res => {
+            store.dispatch({
+              type: USER.LOGIN.SUCCESS,
+              payload: {
+                firstName: 'John', // FIXME: Name is just a placeholder
+                lastName: 'Doe',
+                key: res.key
+              }
+            });
+            resolve();
           });
-          resolve();
         } else {
-          console.error('Error:', response);
-          reject('Login error'); // FIXME: add proper error message
+          response
+            .json()
+            .then(err => {
+              reject(err.non_field_errors[0]); // FIXME: Rewrite to accept all kinds or errors
+            })
+            .catch(err => {
+              console.error(err);
+              reject('Error logging in.');
+            });
         }
       })
       .catch(error => {
@@ -41,26 +49,12 @@ function authenticate(email, password, backendUrl) {
       });
   });
 }
-function authenticateSkipServer() {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      store.dispatch({
-        type: USER.LOGIN.SUCCESS,
-        payload: {
-          firstName: 'Don',
-          lastName: 'Joe'
-        }
-      });
-      resolve();
-    }, 1000); // fake async
-  });
-}
 
-function signout(callback) {
+function logOut(callback) {
   setTimeout(callback, 100);
   store.dispatch({
     type: USER.LOGOUT
   });
 }
 
-export default { authenticate, authenticateSkipServer, signout };
+export { logIn, logOut };

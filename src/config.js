@@ -2,7 +2,8 @@
  * All configuration in one place
  */
 const config = {
-  apiUrl: 'http://127.0.0.1:8000'
+  apiUrl: 'https://varwish-be.herokuapp.com/', // Our backend
+  originUrl: 'https://varwishteam.github.io/varwish-fe/' // Sent in request header, because of CORS
 };
 
 export default config;
