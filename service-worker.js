@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/varwish-fe/precache-manifest.3ea92a1fcde177cc03c54f67cd3ce8f5.js"
+  "/varwish-fe/precache-manifest.6ef85999445a8e477e8536a8c06d0fb9.js"
 );
 
 workbox.clientsClaim();
