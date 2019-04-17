@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/varwishteam/varwish-fe.svg?branch=master)](https://travis-ci.com/varwishteam/varwish-fe)
+
 This is a client side application of our school project VarWish
 Requirements for this application are: 
 * Have nodejs 10.15.3 installed
