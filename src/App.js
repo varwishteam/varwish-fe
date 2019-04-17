@@ -20,7 +20,7 @@ class App extends Component {
           }
           persistor={persistor}
         >
-          <Router>
+          <Router basename="/varwish-fe">
             <Routes />
           </Router>
         </PersistGate>
