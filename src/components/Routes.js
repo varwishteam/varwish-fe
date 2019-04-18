@@ -5,6 +5,7 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import WishlistDetail from '../pages/WishlistDetail';
 import Layout from './Layout';
+import NotFound from '../pages/NotFound';
 
 /**
  * All first-level routes go here
@@ -23,16 +24,19 @@ function Routes({ isLoggedIn }) {
         <Route path="/login" component={Login} />
         {/* <Route path="/signup" component={SignUp} /> */}
         <Layout>
-          {isLoggedIn && <Route exact path="/" component={Home} />}
-          <PrivateRoute
-            path="/wishlists/:wishlistId"
-            component={WishlistDetail}
-            isLoggedIn={isLoggedIn}
-          />
-          {/* <PrivateRoute
+          <Switch>
+            {isLoggedIn && <Route exact path="/" component={Home} />}
+            <PrivateRoute
+              path="/wishlists/:wishlistId"
+              component={WishlistDetail}
+              isLoggedIn={isLoggedIn}
+            />
+            {/* <PrivateRoute
         path="/wishlists/:wishlistId/items/:itemId"
         component={ItemDetail}
       /> */}
+            <Route component={NotFound} />
+          </Switch>
         </Layout>
       </Switch>
     </>
