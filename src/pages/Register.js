@@ -7,7 +7,7 @@ import './login/Login.scss';
  * Login page, a simple form with these fields: Username or Email, Password
  * and a RememberMe checkbox
  */
-export default class Login extends Component {
+class Register extends Component {
   state = {
     firstName: '',
     lastName: '',
@@ -83,3 +83,5 @@ export default class Login extends Component {
     );
   }
 }
+
+export default Register;

@@ -1,12 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import Home from '../pages/Home';
-import Login from '../pages/Login';
-import Register from '../pages/Register';
-import WishlistDetail from '../pages/WishlistDetail';
-import LoggedInLayout from './LogedInLayout';
-import NotFound from '../pages/NotFound';
+
+import { Home, Login, NotFound, Register, WishlistDetail } from '../pages';
+import { LoggedInLayout, NotLoggedLayout } from '../modules';
 
 /**
  * All first-level routes go here
@@ -21,9 +18,15 @@ function Routes({ isLoggedIn }) {
   return (
     <>
       <Switch>
-        {!isLoggedIn && <Route exact path="/" component={Home} />}
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
+        {!isLoggedIn && (
+          <NotLoggedLayout>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />{' '}
+            </Switch>{' '}
+          </NotLoggedLayout>
+        )}
         {/* <Route path="/signup" component={SignUp} /> */}
         <LoggedInLayout>
           <Switch>
