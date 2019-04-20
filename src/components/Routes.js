@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
+import Register from '../pages/Register';
 import WishlistDetail from '../pages/WishlistDetail';
-import Layout from './Layout';
+import LoggedInLayout from './LogedInLayout';
 import NotFound from '../pages/NotFound';
 
 /**
@@ -22,8 +23,9 @@ function Routes({ isLoggedIn }) {
       <Switch>
         {!isLoggedIn && <Route exact path="/" component={Home} />}
         <Route path="/login" component={Login} />
+        <Route path="/register" component={Register} />
         {/* <Route path="/signup" component={SignUp} /> */}
-        <Layout>
+        <LoggedInLayout>
           <Switch>
             {isLoggedIn && <Route exact path="/" component={Home} />}
             <PrivateRoute
@@ -37,7 +39,7 @@ function Routes({ isLoggedIn }) {
       /> */}
             <Route component={NotFound} />
           </Switch>
-        </Layout>
+        </LoggedInLayout>
       </Switch>
     </>
   );
@@ -57,7 +59,7 @@ function PrivateRoute({ component: Component, isLoggedIn, ...rest }) {
           <Redirect
             to={{
               pathname: '/login',
-              state: { from: props.location }
+              state: { from: props.location },
             }}
           />
         )
@@ -67,10 +69,10 @@ function PrivateRoute({ component: Component, isLoggedIn, ...rest }) {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.userReducer.isLoggedIn
+  isLoggedIn: state.userReducer.isLoggedIn,
 });
 
 export default connect(
   mapStateToProps,
-  null
+  null,
 )(Routes);

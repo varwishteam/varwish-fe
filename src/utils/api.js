@@ -11,12 +11,12 @@ function logIn(email, password) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Origin: config.originUrl
+        Origin: config.originUrl,
       },
       body: JSON.stringify({
         username: email,
-        password: password
-      })
+        password: password,
+      }),
     })
       .then(response => {
         if (response.ok) {
@@ -26,8 +26,8 @@ function logIn(email, password) {
               payload: {
                 firstName: 'John', // FIXME: Name is just a placeholder
                 lastName: 'Doe',
-                key: res.key
-              }
+                key: res.key,
+              },
             });
             resolve();
           });
@@ -53,8 +53,48 @@ function logIn(email, password) {
 function logOut(callback) {
   setTimeout(callback, 100);
   store.dispatch({
-    type: USER.LOGOUT
+    type: USER.LOGOUT,
   });
 }
 
-export { logIn, logOut };
+function register(data) {
+  const {
+    firstName,
+    lastName,
+    username,
+    email,
+    passwordSet,
+    passwordConfirm,
+  } = data;
+  return new Promise((resolve, reject) => {
+    fetch(config.apiUrl + 'register/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Origin: config.originUrl,
+      },
+      body: JSON.stringify({
+        username: username,
+        email: email,
+        password1: passwordSet,
+        password2: passwordConfirm,
+        first_name: firstName,
+        last_name: lastName,
+      }),
+    })
+      .then(response => {
+        if (response.ok) {
+          response.json().then(stringifiedResponse => {
+            console.log(stringifiedResponse);
+            resolve();
+          });
+        }
+      })
+      .catch(error => {
+        console.error('An error has occured during registraion', error);
+        reject('Registration error');
+      });
+  });
+}
+
+export { logIn, logOut, register };
