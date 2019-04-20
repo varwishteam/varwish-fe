@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { register } from '../utils/api';
-import './login/Login.scss';
+import './register/Register.scss';
 
 /**
  * Login page, a simple form with these fields: Username or Email, Password
@@ -18,10 +18,11 @@ class Register extends Component {
     redirectToReferrer: false,
   };
 
-  register = e => {
+  handleRegister = e => {
     e.preventDefault();
-    register(...this.state)
-      .then(() => {
+    register({ ...this.state })
+      .then(res => {
+        console.log(res);
         this.setState({ redirectToReferrer: true });
       })
       .catch(error => {
@@ -35,7 +36,16 @@ class Register extends Component {
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } };
-    const { username, password, errorMessage, redirectToReferrer } = this.state;
+    const {
+      username,
+      passwordSet,
+      passwordConfirm,
+      email,
+      firstName,
+      lastName,
+      errorMessage,
+      redirectToReferrer,
+    } = this.state;
 
     if (redirectToReferrer) return <Redirect to={from} />;
 
@@ -54,10 +64,43 @@ class Register extends Component {
             <input
               type="text"
               className="form-control"
-              id="email"
-              placeholder="Username or Email"
+              id="username"
+              placeholder="Username"
               value={username}
               onChange={this.handleChange('username')}
+            />
+          </div>
+
+          <div className="bmd-form-group">
+            <input
+              type="text"
+              id="email"
+              className="form-control"
+              placeholder="Email"
+              value={email}
+              onChange={this.handleChange('email')}
+            />
+          </div>
+
+          <div className="bmd-form-group">
+            <input
+              type="text"
+              className="form-control"
+              id="first-name"
+              placeholder="First name"
+              value={firstName}
+              onChange={this.handleChange('firstName')}
+            />
+          </div>
+
+          <div className="bmd-form-group">
+            <input
+              type="text"
+              className="form-control"
+              id="email"
+              placeholder="Last name"
+              value={lastName}
+              onChange={this.handleChange('lastName')}
             />
           </div>
 
@@ -66,15 +109,26 @@ class Register extends Component {
               type="password"
               className="form-control"
               id="password"
-              placeholder="Password"
-              value={password}
-              onChange={this.handleChange('password')}
+              placeholder="Type in yout password"
+              value={passwordSet}
+              onChange={this.handleChange('passwordSet')}
+            />
+          </div>
+
+          <div className="bmd-form-group">
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              placeholder="Confirm a password"
+              value={passwordConfirm}
+              onChange={this.handleChange('passwordConfirm')}
             />
           </div>
 
           <button
-            className="btn btn-lg btn-primary btn-block btn-outline"
-            onClick={e => e.preventDefault()}
+            className="btn btn-lg btn-primary btn-block btn-outline mt-3"
+            onClick={this.handleRegister}
           >
             Register
           </button>
