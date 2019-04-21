@@ -1,6 +1,6 @@
 import React from 'react';
-import NavBar from './layout/NavBar';
-import Menu from './layout/Menu';
+import NavBar from './loggedInLayout/NavBar';
+import Menu from './loggedInLayout/Menu';
 
 /**
  * Layout with side drawer and navbar on mobile
@@ -10,7 +10,7 @@ import Menu from './layout/Menu';
  *
  * @param {*} children DOM Node containing the main content
  */
-export default function Layout({ children }) {
+export default function LoggedInLayout({ children }) {
   return (
     <div className="position-relative vw-100 vh-100">
       <div className="bmd-layout-container bmd-drawer-f-l bmd-drawer-in-lg-up bmd-drawer-overlay-md-down">

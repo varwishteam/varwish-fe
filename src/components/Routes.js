@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
-import Home from '../pages/Home';
-import Login from '../pages/Login';
-import WishlistDetail from '../pages/WishlistDetail';
-import Layout from './Layout';
-import NotFound from '../pages/NotFound';
+
+import { Home, Login, NotFound, Register, WishlistDetail } from '../pages';
+import { LoggedInLayout, NotLoggedLayout } from '../modules';
 
 /**
  * All first-level routes go here
@@ -20,10 +18,17 @@ function Routes({ isLoggedIn }) {
   return (
     <>
       <Switch>
-        {!isLoggedIn && <Route exact path="/" component={Home} />}
-        <Route path="/login" component={Login} />
+        {!isLoggedIn && (
+          <NotLoggedLayout>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/login" component={Login} />
+              <Route path="/register" component={Register} />{' '}
+            </Switch>{' '}
+          </NotLoggedLayout>
+        )}
         {/* <Route path="/signup" component={SignUp} /> */}
-        <Layout>
+        <LoggedInLayout>
           <Switch>
             {isLoggedIn && <Route exact path="/" component={Home} />}
             <PrivateRoute
@@ -37,7 +42,7 @@ function Routes({ isLoggedIn }) {
       /> */}
             <Route component={NotFound} />
           </Switch>
-        </Layout>
+        </LoggedInLayout>
       </Switch>
     </>
   );
@@ -57,7 +62,7 @@ function PrivateRoute({ component: Component, isLoggedIn, ...rest }) {
           <Redirect
             to={{
               pathname: '/login',
-              state: { from: props.location }
+              state: { from: props.location },
             }}
           />
         )
@@ -67,10 +72,10 @@ function PrivateRoute({ component: Component, isLoggedIn, ...rest }) {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.userReducer.isLoggedIn
+  isLoggedIn: state.userReducer.isLoggedIn,
 });
 
 export default connect(
   mapStateToProps,
-  null
+  null,
 )(Routes);

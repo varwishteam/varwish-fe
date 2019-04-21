@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import AuthButton from '../components/AuthButton';
+import RegRedirectButton from '../components/RegRedirectButton';
 
 /**
  * Home page, contains a list of wishlists
@@ -32,7 +33,10 @@ function Home({ user, isLoggedIn }) {
       <>
         <nav className="navbar navbar-dark bg-dark">
           <span className="navbar-brand mb-0 h1">VarWish</span>
-          <AuthButton type="button" />
+          <div className="navbar-authbuttons">
+            <AuthButton type="button" />
+            <RegRedirectButton type="button" />
+          </div>
         </nav>
         Not logged in
       </>
@@ -42,10 +46,10 @@ function Home({ user, isLoggedIn }) {
 
 const mapStateToProps = state => ({
   user: state.userReducer.user,
-  isLoggedIn: state.userReducer.isLoggedIn
+  isLoggedIn: state.userReducer.isLoggedIn,
 });
 
 export default connect(
   mapStateToProps,
-  null
+  null,
 )(Home);
