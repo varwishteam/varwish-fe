@@ -28,7 +28,10 @@ const request = (method, endpoint, data) => {
       Origin: config.originUrl,
     },
     body: JSON.stringify(data),
-  }).then(response => response.json());
+  }).then(response => {
+    if (response.ok) return response.json();
+    else return response.json().then(error => Promise.reject(error));
+  });
 };
 
 export default {

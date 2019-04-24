@@ -15,7 +15,7 @@ export const createWishlist = wishlist => (dispatch, getState) => {
     .catch(error => dispatch({ type: WISHLIST.CREATE.ERROR, payload: error }));
 };
 
-export const getAllWishlists = (dispatch, getState) => {
+export const getAllWishlists = () => (dispatch, getState) => {
   return api
     .get(api.ENDPOINTS.WISHLISTS)
     .then(wishlists =>
@@ -49,7 +49,7 @@ export const updateWishlist = wishlist => (dispatch, getState) => {
 
 export const deleteWishlist = wishlist => dispatch => {
   return api
-    .delete(api.ENDPOINTS.WISHLISTS)
+    .delete(api.ENDPOINTS.WISHLISTS + '/' + wishlist.id)
     .then(wishlist =>
       dispatch({ type: WISHLIST.DELETE.SUCCESS, payload: wishlist }),
     )

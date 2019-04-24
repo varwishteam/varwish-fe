@@ -1,51 +1,61 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getAllWishlists } from '../actions';
+
+const renderWishlists = wishlists => {
+  return wishlists.map(wishlist => (
+    <Link to={`/wishlists/${wishlist.id}`} className="w-50" key={wishlist.id}>
+      <button type="button" className="btn btn-primary">
+        {wishlist.name}
+      </button>
+    </Link>
+  ));
+};
 
 /**
  * Home page, contains a list of wishlists
  */
-function Home({ user, isLoggedIn }) {
-  if (isLoggedIn) {
-    return (
-      <main className="d-flex flex-row flex-wrap">
-        <button
-          type="button"
-          className="btn btn-dark w-50"
-          data-toggle="modal"
-          data-target="#exampleModal"
-        >
-          <i className="material-icons">add</i>
-          New Wishlist
-        </button>
-        <Link to="/wishlists/1" className="w-50">
-          <button type="button" className="btn btn-primary">
-            Wishlist 1
+class Home extends Component {
+  componentDidMount() {
+    this.props.getAllWishlists();
+  }
+
+  render() {
+    const { isLoggedIn, wishlists } = this.props;
+
+    if (isLoggedIn) {
+      return (
+        <main className="d-flex flex-row flex-wrap">
+          <button
+            type="button"
+            className="btn btn-dark w-50"
+            data-toggle="modal"
+            data-target="#createWishlistModal"
+          >
+            <i className="material-icons">add</i>
+            New Wishlist
           </button>
-        </Link>
-        <Link to="/wishlists/2" className="w-50">
-          <button type="button" className="btn btn-primary">
-            Wishlist 2
-          </button>
-        </Link>
-        <Link to="/wishlists/3" className="w-50">
-          <button type="button" className="btn btn-primary">
-            Wishlist 3
-          </button>
-        </Link>
-      </main>
-    );
-  } else {
-    return <>Not logged in</>;
+          {wishlists && renderWishlists(wishlists)}
+        </main>
+      );
+    } else {
+      return <>Not logged in</>;
+    }
   }
 }
 
 const mapStateToProps = state => ({
   user: state.userReducer.user,
   isLoggedIn: state.userReducer.isLoggedIn,
+  wishlists: state.wishlistsReducer.wishlists,
+});
+
+const mapDispatchToProps = dispatch => ({
+  getAllWishlists: () => dispatch(getAllWishlists()),
 });
 
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(Home);

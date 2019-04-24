@@ -51,34 +51,34 @@ const CreateWishlistModal = props => {
   const submit = wishlist => {
     store.dispatch(createWishlist(wishlist));
     setState({ saveDisabled: true });
-    window.$('#exampleModal').on('hidden.bs.modal', e => {
+    window.$('#createWishlistModal').on('hidden.bs.modal', e => {
       setState(initialState);
       store.dispatch(reset('wishlistForm'));
     });
-    window.$('#exampleModal').modal('hide');
+    window.$('#createWishlistModal').modal('hide');
   };
 
   const cancel = () => {
-    window.$('#exampleModal').on('hidden.bs.modal', e => {
+    window.$('#createWishlistModal').on('hidden.bs.modal', e => {
       setState(initialState);
       store.dispatch(reset('wishlistForm'));
     });
-    window.$('#exampleModal').modal('hide');
+    window.$('#createWishlistModal').modal('hide');
   };
 
   return (
     <div
       className="modal fade"
-      id="exampleModal"
+      id="createWishlistModal"
       tabIndex="-1"
       role="dialog"
-      aria-labelledby="exampleModalTitle"
+      aria-labelledby="createWishlistModalTitle"
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered" role="document">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title" id="exampleModalTitle">
+            <h5 className="modal-title" id="createWishlistModalTitle">
               New wishlist
             </h5>
             <div className="flex-grow-1" />

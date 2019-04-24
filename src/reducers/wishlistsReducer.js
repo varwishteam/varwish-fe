@@ -7,7 +7,7 @@ import { WISHLIST } from '../actions';
 export default function wishlistsReducer(state = {}, action) {
   switch (action.type) {
     case WISHLIST.CREATE.SUCCESS:
-      return { ...state, wishlists: [...state.wishlists, action.payload] };
+      return { ...state, wishlists: [...state.wishlists, action.payload[0]] };
 
     case WISHLIST.GET_ALL.SUCCESS:
       return { ...state, wishlists: action.payload };
