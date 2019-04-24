@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { Home, Login, NotFound, Register, WishlistDetail } from '../pages';
-import { LoggedInLayout, NotLoggedLayout } from '../modules';
+import { LoggedInLayout, NotLoggedLayout } from '.';
 
 /**
  * All first-level routes go here
@@ -14,35 +14,44 @@ import { LoggedInLayout, NotLoggedLayout } from '../modules';
  *
  * @prop {*} isLoggedIn Informatin about user's logged-in state
  */
+
+const renderRouter = isLoggedIn => {
+  if (isLoggedIn) {
+    return (
+      <NotLoggedLayout>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />{' '}
+        </Switch>{' '}
+      </NotLoggedLayout>
+    );
+  }
+
+  return (
+    <LoggedInLayout>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <PrivateRoute
+          path="/wishlists/:wishlistId"
+          component={WishlistDetail}
+          isLoggedIn={isLoggedIn}
+        />
+        {/* <PrivateRoute
+  path="/wishlists/:wishlistId/items/:itemId"
+  component={ItemDetail}
+/> */}
+      </Switch>
+    </LoggedInLayout>
+  );
+};
+
 function Routes({ isLoggedIn }) {
   return (
     <>
       <Switch>
-        {!isLoggedIn && (
-          <NotLoggedLayout>
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route path="/login" component={Login} />
-              <Route path="/register" component={Register} />{' '}
-            </Switch>{' '}
-          </NotLoggedLayout>
-        )}
-        {/* <Route path="/signup" component={SignUp} /> */}
-        <LoggedInLayout>
-          <Switch>
-            {isLoggedIn && <Route exact path="/" component={Home} />}
-            <PrivateRoute
-              path="/wishlists/:wishlistId"
-              component={WishlistDetail}
-              isLoggedIn={isLoggedIn}
-            />
-            {/* <PrivateRoute
-        path="/wishlists/:wishlistId/items/:itemId"
-        component={ItemDetail}
-      /> */}
-            <Route component={NotFound} />
-          </Switch>
-        </LoggedInLayout>
+        {renderRouter(isLoggedIn)}
+        <Route component={NotFound} />
       </Switch>
     </>
   );
