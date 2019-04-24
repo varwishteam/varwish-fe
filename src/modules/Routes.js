@@ -16,7 +16,7 @@ import { LoggedInLayout, NotLoggedLayout } from '.';
  */
 
 const renderRouter = isLoggedIn => {
-  if (isLoggedIn) {
+  if (!isLoggedIn) {
     return (
       <NotLoggedLayout>
         <Switch>
