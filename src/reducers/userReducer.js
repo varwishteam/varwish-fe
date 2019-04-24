@@ -1,4 +1,4 @@
-import { USER } from '../actions/userActions';
+import { USER } from '../actions';
 
 /**
  * User reducer, handles the manipulation of state for dispatched USER actions
@@ -7,19 +7,39 @@ import { USER } from '../actions/userActions';
  */
 export default function userReducer(state = {}, action) {
   switch (action.type) {
-    case USER.CREATE:
-      return { ...state, user: action.payload };
-
-    case USER.UPDATE:
+    case USER.SIGN_UP.SUCCESS:
       return {
         ...state,
-        user: action.payload
+        isLoggedIn: true,
+        user: action.payload,
+        signUpError: null,
       };
 
-    case USER.DELETE: {
+    case USER.SIGN_UP.ERROR:
       return {
         ...state,
-        user: {}
+        isLoggedIn: false,
+        user: null,
+        signUpError: action.payload,
+      };
+
+    case USER.SIGN_UP.RESET_ERRORS: {
+      return {
+        ...state,
+        signUpError: null,
+      };
+    }
+
+    case USER.UPDATE.SUCCESS:
+      return {
+        ...state,
+        user: action.payload,
+      };
+
+    case USER.DELETE.SUCCESS: {
+      return {
+        ...state,
+        user: {},
       };
     }
 
@@ -27,14 +47,24 @@ export default function userReducer(state = {}, action) {
       return {
         ...state,
         isLoggedIn: true,
-        user: action.payload
+        user: action.payload,
+        loginError: null,
       };
     }
 
     case USER.LOGIN.ERROR: {
       return {
         ...state,
-        isLoggedIn: false
+        isLoggedIn: false,
+        user: null,
+        loginError: action.payload,
+      };
+    }
+
+    case USER.LOGIN.RESET_ERRORS: {
+      return {
+        ...state,
+        loginError: null,
       };
     }
 
@@ -42,7 +72,7 @@ export default function userReducer(state = {}, action) {
       return {
         ...state,
         isLoggedIn: false,
-        user: {}
+        user: {},
       };
     }
 

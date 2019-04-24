@@ -1,29 +1,29 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { logIn } from '../utils/api';
+import { logIn, USER } from '../actions';
 import './login/Login.scss';
+import { connect } from 'react-redux';
 
 /**
  * Login page, a simple form with these fields: Username or Email, Password
  * and a RememberMe checkbox
  */
-export default class Login extends Component {
+class Login extends Component {
   state = {
     username: '',
     password: '',
     rememberMe: 'yes',
-    redirectToReferrer: false
+    redirectToReferrer: false,
   };
+
+  componentWillMount() {
+    this.props.resetLoginErrors();
+  }
 
   login = e => {
     e.preventDefault();
-    logIn(this.state.username, this.state.password)
-      .then(() => {
-        this.setState({ redirectToReferrer: true });
-      })
-      .catch(error => {
-        this.setState({ errorMessage: error });
-      });
+    this.props.dispatchLogIn(this.state.username, this.state.password);
+    this.setState({ redirectToReferrer: true });
   };
 
   handleChange = name => event => {
@@ -32,13 +32,8 @@ export default class Login extends Component {
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } };
-    const {
-      username,
-      password,
-      rememberMe,
-      errorMessage,
-      redirectToReferrer
-    } = this.state;
+    const { username, password, rememberMe, redirectToReferrer } = this.state;
+    const { loginError } = this.props;
 
     if (redirectToReferrer) return <Redirect to={from} />;
 
@@ -47,9 +42,9 @@ export default class Login extends Component {
         <form className="form-login">
           <h1 className="h3 mb-3 font-weight-normal">Please log in</h1>
 
-          {errorMessage && (
+          {loginError && (
             <div className="alert alert-danger" role="alert">
-              {errorMessage}
+              {JSON.stringify(loginError.error)}
             </div>
           )}
 
@@ -57,7 +52,7 @@ export default class Login extends Component {
             <input
               type="text"
               className="form-control"
-              id="email"
+              id="username"
               placeholder="Username or Email"
               value={username}
               onChange={this.handleChange('username')}
@@ -88,6 +83,7 @@ export default class Login extends Component {
           </div>
 
           <button
+            type="button"
             className="btn btn-lg btn-primary btn-block btn-outline"
             onClick={this.login}
           >
@@ -98,3 +94,17 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  loginError: state.userReducer.loginError,
+});
+
+const mapDispatchToProps = dispatch => ({
+  dispatchLogIn: (username, password) => dispatch(logIn(username, password)),
+  resetLoginErrors: () => dispatch({ type: USER.LOGIN.RESET_ERRORS }),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Login);

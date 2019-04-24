@@ -6,9 +6,9 @@ const RegRedirectButton = props => {
   const { isLoggedIn } = props;
   return (
     !isLoggedIn && (
-      <Link to="/register" color="inherit">
+      <Link to="/sign-up" color="inherit">
         <button type="button" className="btn btn-primary">
-          Register
+          Sign Up
         </button>
       </Link>
     )

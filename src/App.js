@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './store';
+import { CreateWishlistModal } from './components';
 
 import { Routes } from './modules';
 
@@ -24,6 +25,7 @@ class App extends Component {
           <Router basename="/varwish-fe">
             <Routes />
           </Router>
+          <CreateWishlistModal />
         </PersistGate>
       </Provider>
     );

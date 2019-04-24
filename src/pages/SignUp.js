@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { register } from '../utils/api';
-import './register/Register.scss';
+import { signUp, USER } from '../actions';
+import './sign-up/SignUp.scss';
+import { connect } from 'react-redux';
 
 /**
- * Login page, a simple form with these fields: Username or Email, Password
- * and a RememberMe checkbox
+ * Sign up page
  */
-class Register extends Component {
+class SignUp extends Component {
   state = {
     firstName: '',
     lastName: '',
@@ -18,16 +18,14 @@ class Register extends Component {
     redirectToReferrer: false,
   };
 
-  handleRegister = e => {
+  componentWillMount() {
+    this.props.resetSignUpErrors();
+  }
+
+  handleSignUp = e => {
     e.preventDefault();
-    register({ ...this.state })
-      .then(res => {
-        console.log(res);
-        this.setState({ redirectToReferrer: true });
-      })
-      .catch(error => {
-        this.setState({ errorMessage: error });
-      });
+    this.props.dispatchSignUp({ ...this.state });
+    this.setState({ redirectToReferrer: true });
   };
 
   handleChange = name => event => {
@@ -43,20 +41,20 @@ class Register extends Component {
       email,
       firstName,
       lastName,
-      errorMessage,
       redirectToReferrer,
     } = this.state;
+    const { signUpError } = this.props;
 
     if (redirectToReferrer) return <Redirect to={from} />;
 
     return (
       <div className="wrapper">
-        <form className="form-register">
-          <h1 className="h3 mb-3 font-weight-normal">Register form</h1>
+        <form className="form-signup">
+          <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
 
-          {errorMessage && (
+          {signUpError && (
             <div className="alert alert-danger" role="alert">
-              {errorMessage}
+              {signUpError}
             </div>
           )}
 
@@ -97,7 +95,7 @@ class Register extends Component {
             <input
               type="text"
               className="form-control"
-              id="email"
+              id="last-name"
               placeholder="Last name"
               value={lastName}
               onChange={this.handleChange('lastName')}
@@ -119,7 +117,7 @@ class Register extends Component {
             <input
               type="password"
               className="form-control"
-              id="password"
+              id="password-confirm"
               placeholder="Confirm a password"
               value={passwordConfirm}
               onChange={this.handleChange('passwordConfirm')}
@@ -127,10 +125,11 @@ class Register extends Component {
           </div>
 
           <button
+            type="button"
             className="btn btn-lg btn-primary btn-block btn-outline mt-3"
-            onClick={this.handleRegister}
+            onClick={this.handleSignUp}
           >
-            Register
+            Sign Up
           </button>
         </form>
       </div>
@@ -138,4 +137,16 @@ class Register extends Component {
   }
 }
 
-export default Register;
+const mapStateToProps = state => ({
+  signUpError: state.userReducer.signUpError,
+});
+
+const mapDispatchToProps = dispatch => ({
+  dispatchSignUp: data => dispatch(signUp(data)),
+  resetSignUpErrors: () => dispatch({ type: USER.SIGN_UP.RESET_ERRORS }),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SignUp);

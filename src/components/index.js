@@ -1,4 +1,3 @@
-import AuthButton from './AuthButton';
-import RegRedirectButton from './RegRedirectButton';
-
-export { AuthButton, RegRedirectButton };
+export { default as AuthButton } from './AuthButton';
+export { default as RegRedirectButton } from './RegRedirectButton';
+export { default as CreateWishlistModal } from './CreateWishlistModal';
