@@ -27,6 +27,12 @@ function Routes({ isLoggedIn }) {
           <Switch>
             {isLoggedIn && <Route exact path="/" component={Home} />}
             <PrivateRoute
+              exact
+              path="/wishlists/"
+              component={Home}
+              isLoggedIn={isLoggedIn}
+            />
+            <PrivateRoute
               path="/wishlists/:wishlistId"
               component={WishlistDetail}
               isLoggedIn={isLoggedIn}

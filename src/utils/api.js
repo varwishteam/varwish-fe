@@ -1,60 +1,49 @@
-import { USER } from '../actions/userActions';
-import { store } from '../store';
+// import { store } from '../store';
 import config from '../config.js';
+
 /**
- * All api call wrappers go in this file
+ * Api helper methods
  */
 
-function logIn(email, password) {
-  return new Promise((resolve, reject) => {
-    fetch(config.apiUrl + 'rest-auth/login/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Origin: config.originUrl
-      },
-      body: JSON.stringify({
-        username: email,
-        password: password
-      })
-    })
-      .then(response => {
-        if (response.ok) {
-          response.json().then(res => {
-            store.dispatch({
-              type: USER.LOGIN.SUCCESS,
-              payload: {
-                firstName: 'John', // FIXME: Name is just a placeholder
-                lastName: 'Doe',
-                key: res.key
-              }
-            });
-            resolve();
-          });
-        } else {
-          response
-            .json()
-            .then(err => {
-              reject(err.non_field_errors[0]); // FIXME: Rewrite to accept all kinds or errors
-            })
-            .catch(err => {
-              console.error(err);
-              reject('Error logging in.');
-            });
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        reject('Login error'); // FIXME: add proper error message
-      });
-  });
-}
+let currentAuthToken = undefined;
 
-function logOut(callback) {
-  setTimeout(callback, 100);
-  store.dispatch({
-    type: USER.LOGOUT
-  });
-}
+const setToken = token => {
+  console.log(`Setting currentAuthToken to ${token}`);
+  currentAuthToken = token;
+};
 
-export { logIn, logOut };
+const ENDPOINTS = {
+  LOGIN: 'rest-auth/login',
+  LOGOUT: 'rest-auth/logout',
+  SUGN_UP: 'sign-up',
+  WISHLISTS: 'wishlists',
+};
+
+const request = (method, endpoint, data) => {
+  return fetch(config.apiUrl + endpoint + '/', {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: currentAuthToken && `Token  ${currentAuthToken}`,
+      Origin: config.originUrl,
+    },
+    body: JSON.stringify(data),
+  }).then(response => response.json());
+};
+
+export default {
+  get: (endpoint, data) => {
+    return request('get', endpoint, data);
+  },
+  post: (endpoint, data) => {
+    return request('post', endpoint, data);
+  },
+  put: (endpoint, data) => {
+    return request('put', endpoint, data);
+  },
+  delete: (endpoint, data) => {
+    return request('delete', endpoint, data);
+  },
+  setToken,
+  ENDPOINTS,
+};

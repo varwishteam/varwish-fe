@@ -1,4 +1,4 @@
-import { USER } from '../actions/userActions';
+import { USER } from '../actions';
 
 /**
  * User reducer, handles the manipulation of state for dispatched USER actions
@@ -7,19 +7,19 @@ import { USER } from '../actions/userActions';
  */
 export default function userReducer(state = {}, action) {
   switch (action.type) {
-    case USER.CREATE:
+    case USER.CREATE.SUCCESS:
       return { ...state, user: action.payload };
 
-    case USER.UPDATE:
+    case USER.UPDATE.SUCCESS:
       return {
         ...state,
-        user: action.payload
+        user: action.payload,
       };
 
-    case USER.DELETE: {
+    case USER.DELETE.SUCCESS: {
       return {
         ...state,
-        user: {}
+        user: {},
       };
     }
 
@@ -27,14 +27,24 @@ export default function userReducer(state = {}, action) {
       return {
         ...state,
         isLoggedIn: true,
-        user: action.payload
+        user: action.payload,
+        loginError: null,
       };
     }
 
     case USER.LOGIN.ERROR: {
       return {
         ...state,
-        isLoggedIn: false
+        isLoggedIn: false,
+        user: null,
+        loginError: action.payload,
+      };
+    }
+
+    case USER.LOGIN.RESET_ERRORS: {
+      return {
+        ...state,
+        loginError: null,
       };
     }
 
@@ -42,7 +52,7 @@ export default function userReducer(state = {}, action) {
       return {
         ...state,
         isLoggedIn: false,
-        user: {}
+        user: {},
       };
     }
 

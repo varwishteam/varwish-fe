@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import Routes from './components/Routes';
 import { store, persistor } from './store';
+import CreateWishlistModal from './components/CreateWishlistModal';
 
 /**
  * The base of the app, setup for redux, redux-persist, material-ui theme and react-router
@@ -23,6 +24,7 @@ class App extends Component {
           <Router basename="/varwish-fe">
             <Routes />
           </Router>
+          <CreateWishlistModal />
         </PersistGate>
       </Provider>
     );

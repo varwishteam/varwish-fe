@@ -10,6 +10,15 @@ function Home({ user, isLoggedIn }) {
   if (isLoggedIn) {
     return (
       <main className="d-flex flex-row flex-wrap">
+        <button
+          type="button"
+          className="btn btn-dark w-50"
+          data-toggle="modal"
+          data-target="#exampleModal"
+        >
+          <i className="material-icons">add</i>
+          New Wishlist
+        </button>
         <Link to="/wishlists/1" className="w-50">
           <button type="button" className="btn btn-primary">
             Wishlist 1
