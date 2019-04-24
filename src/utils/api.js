@@ -15,7 +15,7 @@ const setToken = token => {
 const ENDPOINTS = {
   LOGIN: 'rest-auth/login',
   LOGOUT: 'rest-auth/logout',
-  SUGN_UP: 'sign-up',
+  SIGN_UP: 'sign-up',
   WISHLISTS: 'wishlists',
 };
 

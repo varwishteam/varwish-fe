@@ -13,6 +13,7 @@ class Login extends Component {
     username: '',
     password: '',
     rememberMe: 'yes',
+    redirectToReferrer: false,
   };
 
   componentWillMount() {
@@ -22,6 +23,7 @@ class Login extends Component {
   login = e => {
     e.preventDefault();
     this.props.dispatchLogIn(this.state.username, this.state.password);
+    this.setState({ redirectToReferrer: true });
   };
 
   handleChange = name => event => {
@@ -30,10 +32,10 @@ class Login extends Component {
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } };
-    const { username, password, rememberMe } = this.state;
-    const { loginError, isLoggedIn } = this.props;
+    const { username, password, rememberMe, redirectToReferrer } = this.state;
+    const { loginError } = this.props;
 
-    if (isLoggedIn) return <Redirect to={from} />;
+    if (redirectToReferrer) return <Redirect to={from} />;
 
     return (
       <div className="wrapper">
@@ -94,7 +96,6 @@ class Login extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.userReducer.isLoggedIn,
   loginError: state.userReducer.loginError,
 });
 

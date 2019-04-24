@@ -7,8 +7,28 @@ import { USER } from '../actions';
  */
 export default function userReducer(state = {}, action) {
   switch (action.type) {
-    case USER.CREATE.SUCCESS:
-      return { ...state, user: action.payload };
+    case USER.SIGN_UP.SUCCESS:
+      return {
+        ...state,
+        isLoggedIn: true,
+        user: action.payload,
+        signUpError: null,
+      };
+
+    case USER.SIGN_UP.ERROR:
+      return {
+        ...state,
+        isLoggedIn: false,
+        user: null,
+        signUpError: action.payload,
+      };
+
+    case USER.SIGN_UP.RESET_ERRORS: {
+      return {
+        ...state,
+        signUpError: null,
+      };
+    }
 
     case USER.UPDATE.SUCCESS:
       return {

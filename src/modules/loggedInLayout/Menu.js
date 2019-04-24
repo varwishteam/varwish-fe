@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AuthButton from '../AuthButton';
+import { AuthButton } from '../../components';
 
 /**
  * The content for the drawer

@@ -31,3 +31,40 @@ export const logOut = () => dispatch => {
     });
   });
 };
+
+export const signUp = ({
+  firstName,
+  lastName,
+  username,
+  email,
+  passwordSet,
+  passwordConfirm,
+}) => dispatch => {
+  return api
+    .post(api.ENDPOINTS.SIGN_UP, {
+      username: username,
+      email: email,
+      password1: passwordSet,
+      password2: passwordConfirm,
+      first_name: firstName,
+      last_name: lastName,
+    })
+    .then(response => {
+      if (response.user && response.key) {
+        dispatch({
+          type: USER.SIGN_UP.SUCCESS,
+          payload: {
+            id: response.user,
+            key: response.key,
+          },
+        });
+      } else {
+        dispatch({
+          type: USER.SIGN_UP.ERROR,
+          payload: {
+            error: response,
+          },
+        });
+      }
+    });
+};

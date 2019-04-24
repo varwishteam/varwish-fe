@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import AuthButton from '../components/AuthButton';
 
 /**
  * Home page, contains a list of wishlists
@@ -37,24 +36,16 @@ function Home({ user, isLoggedIn }) {
       </main>
     );
   } else {
-    return (
-      <>
-        <nav className="navbar navbar-dark bg-dark">
-          <span className="navbar-brand mb-0 h1">VarWish</span>
-          <AuthButton type="button" />
-        </nav>
-        Not logged in
-      </>
-    );
+    return <>Not logged in</>;
   }
 }
 
 const mapStateToProps = state => ({
   user: state.userReducer.user,
-  isLoggedIn: state.userReducer.isLoggedIn
+  isLoggedIn: state.userReducer.isLoggedIn,
 });
 
 export default connect(
   mapStateToProps,
-  null
+  null,
 )(Home);
