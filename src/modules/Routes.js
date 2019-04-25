@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
-import { Home, Login, NotFound, Register, WishlistDetail } from '../pages';
+import { Home, Login, NotFound, SignUp, WishlistDetail } from '../pages';
 import { LoggedInLayout, NotLoggedLayout } from '.';
 
 /**
@@ -22,7 +22,7 @@ const renderRouter = isLoggedIn => {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />{' '}
+          <Route path="/sign-up" component={SignUp} />{' '}
         </Switch>{' '}
       </NotLoggedLayout>
     );

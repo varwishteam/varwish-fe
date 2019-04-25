@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import { SpinningLoader } from '../components';
-import { register } from '../utils/api';
-import './register/Register.scss';
+import { signUp } from '../utils/api';
+import './signUp/SignUp.scss';
 
 /**
- * Login page, a simple form with these fields: Username or Email, Password
- * and a RememberMe checkbox
+ * Sign-up page, a simple form with these fields: username, email, firstname, lastname
+ * and password with confirm password
+ *
  */
 
-class Register extends Component {
+//rethink handling of this page
+
+class SignUp extends Component {
   state = {
     firstName: '',
     lastName: '',
@@ -23,12 +26,12 @@ class Register extends Component {
     isLoading: false,
   };
 
-  handleRegister = e => {
+  handleSignUp = e => {
     e.preventDefault();
     this.setState({
       isLoading: true,
     });
-    register({ ...this.state }).then(response => {
+    signUp({ ...this.state }).then(response => {
       if (response.ok) {
         return this.setState({ redirectToReferrer: true, isLoading: false });
       }
@@ -69,8 +72,8 @@ class Register extends Component {
 
     return (
       <div className="wrapper">
-        <form className="form-register">
-          <h1 className="h3 mb-3 font-weight-normal">Register form</h1>
+        <form className="form-sign-up">
+          <h1 className="h3 mb-3 font-weight-normal">Sign-Up form</h1>
 
           <div className="bmd-form-group">
             <input
@@ -82,7 +85,7 @@ class Register extends Component {
               onChange={this.handleChange('username')}
             />
             {usernameError && (
-              <div className="form-register--error-message-input alert alert-danger">
+              <div className="form-sign-up--error-message-input alert alert-danger">
                 {usernameError}
               </div>
             )}
@@ -98,7 +101,7 @@ class Register extends Component {
               onChange={this.handleChange('email')}
             />
             {emailError && (
-              <div className="form-register--error-message-input alert alert-danger">
+              <div className="form-sign-up--error-message-input alert alert-danger">
                 {emailError}
               </div>
             )}
@@ -114,7 +117,7 @@ class Register extends Component {
               onChange={this.handleChange('firstName')}
             />
             {firstNameError && (
-              <div className="form-register--error-message-input alert alert-danger">
+              <div className="form-sign-up--error-message-input alert alert-danger">
                 {firstNameError}
               </div>
             )}
@@ -130,7 +133,7 @@ class Register extends Component {
               onChange={this.handleChange('lastName')}
             />
             {lastNameError && (
-              <div className="form-register--error-message-input alert alert-danger">
+              <div className="form-sign-up--error-message-input alert alert-danger">
                 {lastNameError}
               </div>
             )}
@@ -146,7 +149,7 @@ class Register extends Component {
               onChange={this.handleChange('passwordSet')}
             />
             {passwordSetError && (
-              <div className="form-register--error-message-input alert alert-danger">
+              <div className="form-sign-up--error-message-input alert alert-danger">
                 {passwordSetError}
               </div>
             )}
@@ -162,7 +165,7 @@ class Register extends Component {
               onChange={this.handleChange('passwordConfirm')}
             />
             {passwordConfirmError && (
-              <div className="form-register--error-message-input alert alert-danger">
+              <div className="form-sign-up--error-message-input alert alert-danger">
                 {passwordConfirmError}
               </div>
             )}
@@ -170,9 +173,9 @@ class Register extends Component {
 
           <button
             className="btn btn-lg btn-primary btn-block btn-outline mt-3"
-            onClick={this.handleRegister}
+            onClick={this.handleSignUp}
           >
-            {isLoading ? <SpinningLoader /> : 'Register'}
+            {isLoading ? <SpinningLoader /> : 'Sign-Up'}
           </button>
         </form>
       </div>
@@ -180,4 +183,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default SignUp;

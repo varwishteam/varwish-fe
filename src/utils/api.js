@@ -57,7 +57,7 @@ function logOut(callback) {
   });
 }
 
-function register(data) {
+function signUp(data) {
   const {
     firstName,
     lastName,
@@ -89,4 +89,4 @@ function register(data) {
     });
 }
 
-export { logIn, logOut, register };
+export { logIn, logOut, signUp };
