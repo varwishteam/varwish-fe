@@ -1,5 +1,3 @@
-import LoggedInLayout from './LoggedInLayout';
-import NotLoggedLayout from './NotLoggedLayout';
-import Routes from './Routes';
-
-export { LoggedInLayout, NotLoggedLayout, Routes };
+export { default as LoggedInLayout } from './LoggedInLayout';
+export { default as NotLoggedLayout } from './NotLoggedLayout';
+export { default as Routes } from './Routes';

@@ -1,92 +1,52 @@
-import { USER } from '../actions/userActions';
-import { store } from '../store';
+// import { store } from '../store';
 import config from '../config.js';
+
 /**
- * All api call wrappers go in this file
+ * Api helper methods
  */
 
-function logIn(email, password) {
-  return new Promise((resolve, reject) => {
-    fetch(config.apiUrl + 'rest-auth/login/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Origin: config.originUrl,
-      },
-      body: JSON.stringify({
-        username: email,
-        password: password,
-      }),
-    })
-      .then(response => {
-        if (response.ok) {
-          response.json().then(res => {
-            store.dispatch({
-              type: USER.LOGIN.SUCCESS,
-              payload: {
-                firstName: 'John', // FIXME: Name is just a placeholder
-                lastName: 'Doe',
-                key: res.key,
-              },
-            });
-            resolve();
-          });
-        } else {
-          response
-            .json()
-            .then(err => {
-              reject(err.non_field_errors[0]); // FIXME: Rewrite to accept all kinds or errors
-            })
-            .catch(err => {
-              console.error(err);
-              reject('Error logging in.');
-            });
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        reject('Login error'); // FIXME: add proper error message
-      });
-  });
-}
+let currentAuthToken = undefined;
 
-function logOut(callback) {
-  setTimeout(callback, 100);
-  store.dispatch({
-    type: USER.LOGOUT,
-  });
-}
+const setToken = token => {
+  console.log(`Setting currentAuthToken to ${token}`);
+  currentAuthToken = token;
+};
 
-function register(data) {
-  const {
-    firstName,
-    lastName,
-    username,
-    email,
-    passwordSet,
-    passwordConfirm,
-  } = data;
-  return fetch(config.apiUrl + 'sign-up/', {
-    method: 'POST',
+const ENDPOINTS = {
+  LOGIN: 'rest-auth/login',
+  LOGOUT: 'rest-auth/logout',
+  SIGN_UP: 'sign-up',
+  WISHLISTS: 'wishlists',
+};
+
+const request = (method, endpoint, data) => {
+  return fetch(config.apiUrl + endpoint + '/', {
+    method: method,
     headers: {
       'Content-Type': 'application/json',
+      Authorization: currentAuthToken && `Token  ${currentAuthToken}`,
       Origin: config.originUrl,
     },
-    body: JSON.stringify({
-      username: username,
-      email: email,
-      password1: passwordSet,
-      password2: passwordConfirm,
-      first_name: firstName,
-      last_name: lastName,
-    }),
-  })
-    .then(response => {
-      return response;
-    })
-    .catch(error => {
-      return error;
-    });
-}
+    body: JSON.stringify(data),
+  }).then(response => {
+    if (response.ok) return response.json();
+    else return response.json().then(error => Promise.reject(error));
+  });
+};
 
-export { logIn, logOut, register };
+export default {
+  get: (endpoint, data) => {
+    return request('get', endpoint, data);
+  },
+  post: (endpoint, data) => {
+    return request('post', endpoint, data);
+  },
+  put: (endpoint, data) => {
+    return request('put', endpoint, data);
+  },
+  delete: (endpoint, data) => {
+    return request('delete', endpoint, data);
+  },
+  setToken,
+  ENDPOINTS,
+};
