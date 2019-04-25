@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { Home, Login, NotFound, SignUp, WishlistDetail } from '../pages';
-import { LoggedInLayout, NotLoggedLayout } from '.';
+import LoggedInLayout from './LoggedInLayout';
+import NotLoggedLayout from './NotLoggedLayout';
 
 /**
  * All first-level routes go here
@@ -22,8 +23,8 @@ const renderRouter = isLoggedIn => {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
-          <Route path="/sign-up" component={SignUp} />{' '}
-        </Switch>{' '}
+          <Route path="/sign-up" component={SignUp} />
+        </Switch>
       </NotLoggedLayout>
     );
   }
@@ -38,9 +39,9 @@ const renderRouter = isLoggedIn => {
           isLoggedIn={isLoggedIn}
         />
         {/* <PrivateRoute
-  path="/wishlists/:wishlistId/items/:itemId"
-  component={ItemDetail}
-/> */}
+          path="/wishlists/:wishlistId/items/:itemId"
+          component={ItemDetail}
+        /> */}
       </Switch>
     </LoggedInLayout>
   );

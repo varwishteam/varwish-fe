@@ -1,19 +1,19 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { logOut } from '../utils/api';
+import { logOut } from '../actions';
 import { connect } from 'react-redux';
 
 /**
  * This button displays 'Log In' when the user first comes to the page
  * and 'Log Out' when the user is logged in
  */
-const AuthButton = withRouter(({ history, isLoggedIn }) =>
+const AuthButton = withRouter(({ history, isLoggedIn, dispatchLogOut }) =>
   isLoggedIn ? (
     <button
       type="button"
       className="btn btn-primary btn-block list-group-item"
       onClick={() => {
-        logOut(() => history.push('/'));
+        dispatchLogOut().then(() => history.push('/'));
       }}
     >
       <i className="material-icons">close</i>
@@ -25,14 +25,18 @@ const AuthButton = withRouter(({ history, isLoggedIn }) =>
         Log In
       </button>
     </Link>
-  )
+  ),
 );
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.userReducer.isLoggedIn
+  isLoggedIn: state.userReducer.isLoggedIn,
+});
+
+const mapDispatchToProps = dispatch => ({
+  dispatchLogOut: () => dispatch(logOut()),
 });
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps,
 )(AuthButton);

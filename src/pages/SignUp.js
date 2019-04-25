@@ -1,18 +1,13 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import { SpinningLoader } from '../components';
-import { signUp } from '../utils/api';
-import './signUp/SignUp.scss';
+import { signUp, USER } from '../actions';
+import './sign-up/SignUp.scss';
 
 /**
- * Sign-up page, a simple form with these fields: username, email, firstname, lastname
- * and password with confirm password
- *
+ * Sign up page
  */
-
-//rethink handling of this page
-
 class SignUp extends Component {
   state = {
     firstName: '',
@@ -21,24 +16,16 @@ class SignUp extends Component {
     email: '',
     passwordSet: '',
     passwordConfirm: '',
-    redirectToReferrer: false,
     errors: {},
-    isLoading: false,
   };
+
+  componentWillMount() {
+    this.props.resetSignUpErrors();
+  }
 
   handleSignUp = e => {
     e.preventDefault();
-    this.setState({
-      isLoading: true,
-    });
-    signUp({ ...this.state }).then(response => {
-      if (response.ok) {
-        return this.setState({ redirectToReferrer: true, isLoading: false });
-      }
-      return response.json().then(data => {
-        this.setState({ errors: { ...data }, isLoading: false });
-      });
-    });
+    this.props.dispatchSignUp({ ...this.state });
   };
 
   handleChange = name => event => {
@@ -46,7 +33,6 @@ class SignUp extends Component {
   };
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } };
     const {
       username,
       passwordSet,
@@ -54,26 +40,19 @@ class SignUp extends Component {
       email,
       firstName,
       lastName,
-      errors,
-      redirectToReferrer,
-      isLoading,
     } = this.state;
-
-    const {
-      username: usernameError,
-      email: emailError,
-      password1: passwordSetError,
-      password2: passwordConfirmError,
-      first_name: firstNameError,
-      last_name: lastNameError,
-    } = errors;
-
-    if (redirectToReferrer) return <Redirect to={from} />;
+    const { signUpError } = this.props;
 
     return (
       <div className="wrapper">
-        <form className="form-sign-up">
-          <h1 className="h3 mb-3 font-weight-normal">Sign-Up form</h1>
+        <form className="form-signup">
+          <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
+
+          {signUpError && (
+            <div className="alert alert-danger" role="alert">
+              {signUpError}
+            </div>
+          )}
 
           <div className="bmd-form-group">
             <input
@@ -84,11 +63,6 @@ class SignUp extends Component {
               value={username}
               onChange={this.handleChange('username')}
             />
-            {usernameError && (
-              <div className="form-sign-up--error-message-input alert alert-danger">
-                {usernameError}
-              </div>
-            )}
           </div>
 
           <div className="bmd-form-group">
@@ -100,11 +74,6 @@ class SignUp extends Component {
               value={email}
               onChange={this.handleChange('email')}
             />
-            {emailError && (
-              <div className="form-sign-up--error-message-input alert alert-danger">
-                {emailError}
-              </div>
-            )}
           </div>
 
           <div className="bmd-form-group">
@@ -116,27 +85,17 @@ class SignUp extends Component {
               value={firstName}
               onChange={this.handleChange('firstName')}
             />
-            {firstNameError && (
-              <div className="form-sign-up--error-message-input alert alert-danger">
-                {firstNameError}
-              </div>
-            )}
           </div>
 
           <div className="bmd-form-group">
             <input
               type="text"
               className="form-control"
-              id="email"
+              id="last-name"
               placeholder="Last name"
               value={lastName}
               onChange={this.handleChange('lastName')}
             />
-            {lastNameError && (
-              <div className="form-sign-up--error-message-input alert alert-danger">
-                {lastNameError}
-              </div>
-            )}
           </div>
 
           <div className="bmd-form-group">
@@ -148,34 +107,25 @@ class SignUp extends Component {
               value={passwordSet}
               onChange={this.handleChange('passwordSet')}
             />
-            {passwordSetError && (
-              <div className="form-sign-up--error-message-input alert alert-danger">
-                {passwordSetError}
-              </div>
-            )}
           </div>
 
           <div className="bmd-form-group">
             <input
               type="password"
               className="form-control"
-              id="password"
+              id="password-confirm"
               placeholder="Confirm a password"
               value={passwordConfirm}
               onChange={this.handleChange('passwordConfirm')}
             />
-            {passwordConfirmError && (
-              <div className="form-sign-up--error-message-input alert alert-danger">
-                {passwordConfirmError}
-              </div>
-            )}
           </div>
 
           <button
+            type="button"
             className="btn btn-lg btn-primary btn-block btn-outline mt-3"
             onClick={this.handleSignUp}
           >
-            {isLoading ? <SpinningLoader /> : 'Sign-Up'}
+            Sign-Up
           </button>
         </form>
       </div>
@@ -183,4 +133,16 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+const mapStateToProps = state => ({
+  signUpError: state.userReducer.signUpError,
+});
+
+const mapDispatchToProps = dispatch => ({
+  dispatchSignUp: data => dispatch(signUp(data)),
+  resetSignUpErrors: () => dispatch({ type: USER.SIGN_UP.RESET_ERRORS }),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(SignUp);
