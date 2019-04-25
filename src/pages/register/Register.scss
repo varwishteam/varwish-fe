@@ -28,4 +28,7 @@
   .form-control:focus {
     z-index: 2;
   }
+  &--error-message-input {
+    padding: 10px;
+  }
 }

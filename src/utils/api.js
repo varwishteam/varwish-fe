@@ -66,35 +66,27 @@ function register(data) {
     passwordSet,
     passwordConfirm,
   } = data;
-  return new Promise((resolve, reject) => {
-    fetch(config.apiUrl + 'register/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Origin: config.originUrl,
-      },
-      body: JSON.stringify({
-        username: username,
-        email: email,
-        password1: passwordSet,
-        password2: passwordConfirm,
-        first_name: firstName,
-        last_name: lastName,
-      }),
+  return fetch(config.apiUrl + 'sign-up/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Origin: config.originUrl,
+    },
+    body: JSON.stringify({
+      username: username,
+      email: email,
+      password1: passwordSet,
+      password2: passwordConfirm,
+      first_name: firstName,
+      last_name: lastName,
+    }),
+  })
+    .then(response => {
+      return response;
     })
-      .then(response => {
-        if (response.ok) {
-          response.json().then(stringifiedResponse => {
-            console.log(stringifiedResponse);
-            resolve();
-          });
-        }
-      })
-      .catch(error => {
-        console.error('An error has occured during registraion', error);
-        reject('Registration error');
-      });
-  });
+    .catch(error => {
+      return error;
+    });
 }
 
 export { logIn, logOut, register };
