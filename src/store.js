@@ -33,7 +33,7 @@ const initialState = {
     wishlists: [],
   },
   modalReducer: {
-    openModal: null,
+    openedModal: null,
   },
 };
 

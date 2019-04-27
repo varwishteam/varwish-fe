@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getAllWishlists, openModal, MODAL_TYPE } from '../actions';
-import WishlistForm from '../components/modal/WishlistForm';
-import { Modal } from '../components';
+import { Modal, CreateWishlistForm } from '../components';
 
 const renderWishlists = wishlists => {
   return wishlists.map(wishlist => (
-    <Link to={`/wishlists/${wishlist.id}`} className="w-50" key={wishlist.id}>
+    <Link
+      to={`/wishlists/${wishlist.id}`}
+      className="w-50"
+      key={wishlist.id || 'id-not-yet-available'}
+    >
       <button type="button" className="btn btn-primary">
         {wishlist.name}
       </button>
@@ -20,7 +23,7 @@ const renderWishlists = wishlists => {
  */
 class Home extends Component {
   componentDidMount() {
-    this.props.getAllWishlists();
+    this.props.isLoggedIn && this.props.getAllWishlists();
   }
 
   render() {
@@ -40,7 +43,7 @@ class Home extends Component {
           {wishlists && renderWishlists(wishlists)}
 
           <Modal title="New wishlist" modalType={MODAL_TYPE.WISHLIST.CREATE}>
-            <WishlistForm />
+            <CreateWishlistForm />
           </Modal>
         </main>
       );

@@ -8,10 +8,10 @@ import { MODAL } from '../actions';
 export default function modalReducer(state = {}, action) {
   switch (action.type) {
     case MODAL.OPEN:
-      return { ...state, openModal: action.payload };
+      return { ...state, openedModal: action.payload };
 
     case MODAL.CLOSE:
-      return { ...state, openModal: null };
+      return { ...state, openedModal: null };
 
     default:
       return state;

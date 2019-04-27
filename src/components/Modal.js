@@ -70,7 +70,7 @@ class Modal extends Component {
 }
 
 const mapStateToProps = state => ({
-  openedModal: state.modalReducer.openModal,
+  openedModal: state.modalReducer.openedModal,
 });
 
 const mapDispatchToProps = dispatch => ({

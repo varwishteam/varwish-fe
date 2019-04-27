@@ -23,8 +23,7 @@ const renderField = ({
   </div>
 );
 
-export default function FormField(props) {
-  const { name, type, label } = props;
+export default function FormField({ name, type, label }) {
   return (
     <Field name={name} component={renderField} type={type} label={label} />
   );

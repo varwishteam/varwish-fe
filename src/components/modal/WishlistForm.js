@@ -1,6 +1,11 @@
 import React from 'react';
 import { reduxForm, SubmissionError } from 'redux-form';
-import { createWishlist, closeModal } from '../../actions';
+import {
+  createWishlist,
+  closeModal,
+  MODAL_TYPE,
+  updateWishlist,
+} from '../../actions';
 import FormField from '../FormField';
 import { connect } from 'react-redux';
 
@@ -11,56 +16,83 @@ const validate = values => {
   return errors;
 };
 
-const WishlistForm = ({
-  handleSubmit,
-  submitting,
-  pristine,
-  invalid,
-  dispatchCreateWishlist,
-  closeModal,
-}) => {
-  const submit = wishlist => {
-    return dispatchCreateWishlist(wishlist)
-      .then(closeModal)
-      .catch(error => {
-        throw new SubmissionError(error);
+class WishlistForm extends React.Component {
+  componentWillMount() {
+    const { wishlist } = this.props;
+    if (wishlist) {
+      this.props.initialize({
+        wishlistName: wishlist.name,
+        wishlistDescription: wishlist.description,
       });
-  };
+    }
+  }
 
-  return (
-    <form id="wishlistForm" onSubmit={handleSubmit(submit)} className="m-0">
-      <FormField name="wishlistName" type="text" label="Wishlist name" />
-      <FormField
-        name="wishlistDescription"
-        type="text"
-        label="Wishlist description"
-      />
-      <div className="modal-footer">
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={closeModal}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          className="btn btn-primary"
-          disabled={pristine || invalid || submitting}
-        >
-          Save
-        </button>
-      </div>
-    </form>
-  );
-};
+  render() {
+    const {
+      wishlist: wishlistBeforeUpdate,
+      handleSubmit,
+      submitting,
+      pristine,
+      invalid,
+      dispatchCreateWishlist,
+      dispatchUpdateWishlist,
+      closeModal,
+      modalType,
+    } = this.props;
+
+    const submit = wishlist => {
+      if (modalType === MODAL_TYPE.WISHLIST.CREATE) {
+        return dispatchCreateWishlist(wishlist)
+          .then(closeModal)
+          .catch(error => {
+            throw new SubmissionError(error);
+          });
+      } else if (modalType === MODAL_TYPE.WISHLIST.UPDATE) {
+        wishlist.wishlistId = wishlistBeforeUpdate.id;
+        return dispatchUpdateWishlist(wishlist)
+          .then(closeModal)
+          .catch(error => {
+            throw new SubmissionError(error);
+          });
+      }
+    };
+
+    return (
+      <form id="wishlistForm" onSubmit={handleSubmit(submit)} className="m-0">
+        <FormField name="wishlistName" type="text" label="Wishlist name" />
+        <FormField
+          name="wishlistDescription"
+          type="text"
+          label="Wishlist description"
+        />
+        <div className="modal-footer">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={closeModal}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={pristine || invalid || submitting}
+          >
+            Save
+          </button>
+        </div>
+      </form>
+    );
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   dispatchCreateWishlist: wishlist => dispatch(createWishlist(wishlist)),
+  dispatchUpdateWishlist: wishlist => dispatch(updateWishlist(wishlist)),
   closeModal: () => dispatch(closeModal()),
 });
 
-export default reduxForm({
+const WishListForm = reduxForm({
   form: 'wishlistForm',
   validate,
 })(
@@ -68,4 +100,12 @@ export default reduxForm({
     null,
     mapDispatchToProps,
   )(WishlistForm),
+);
+
+export const CreateWishlistForm = ({ wishlist }) => (
+  <WishListForm modalType={MODAL_TYPE.WISHLIST.CREATE} wishlist={wishlist} />
+);
+
+export const UpdateWishlistForm = ({ wishlist }) => (
+  <WishListForm modalType={MODAL_TYPE.WISHLIST.UPDATE} wishlist={wishlist} />
 );
