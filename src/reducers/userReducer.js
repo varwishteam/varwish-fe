@@ -48,7 +48,6 @@ export default function userReducer(state = {}, action) {
         ...state,
         isLoggedIn: true,
         user: action.payload,
-        loginError: null,
       };
     }
 
@@ -56,15 +55,7 @@ export default function userReducer(state = {}, action) {
       return {
         ...state,
         isLoggedIn: false,
-        user: null,
-        loginError: action.payload,
-      };
-    }
-
-    case USER.LOGIN.RESET_ERRORS: {
-      return {
-        ...state,
-        loginError: null,
+        user: {},
       };
     }
 

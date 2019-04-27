@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { logIn, USER } from '../actions';
+import { logIn } from '../actions';
 import './login/Login.scss';
 import { connect } from 'react-redux';
 
@@ -12,28 +12,35 @@ class Login extends Component {
   state = {
     username: '',
     password: '',
-    rememberMe: 'yes',
+    rememberLogin: true,
     redirectToReferrer: false,
+    loginErrors: [],
   };
-
-  componentWillMount() {
-    this.props.resetLoginErrors();
-  }
 
   login = e => {
     e.preventDefault();
-    this.props.dispatchLogIn(this.state.username, this.state.password);
-    this.setState({ redirectToReferrer: true });
+    this.props.dispatchLogIn({ ...this.state }).catch(error => {
+      this.setState({ loginErrors: [...Object.values(error)] });
+    });
+    // this.setState({ redirectToReferrer: true });
   };
 
   handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
+    this.setState({
+      [name]:
+        name === 'rememberLogin' ? event.target.checked : event.target.value,
+    });
   };
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } };
-    const { username, password, rememberMe, redirectToReferrer } = this.state;
-    const { loginError } = this.props;
+    const {
+      username,
+      password,
+      rememberLogin,
+      redirectToReferrer,
+      loginErrors,
+    } = this.state;
 
     if (redirectToReferrer) return <Redirect to={from} />;
 
@@ -42,9 +49,11 @@ class Login extends Component {
         <form className="form-login">
           <h1 className="h3 mb-3 font-weight-normal">Please log in</h1>
 
-          {loginError && (
+          {loginErrors.length > 0 && (
             <div className="alert alert-danger" role="alert">
-              {JSON.stringify(loginError.error)}
+              {loginErrors.map((error, i) => (
+                <span key={i}>{error}</span>
+              ))}
             </div>
           )}
 
@@ -71,12 +80,12 @@ class Login extends Component {
           </div>
 
           <div className="checkbox-inline">
-            <label htmlFor="rememberMe">
+            <label htmlFor="rememberLogin">
               <input
                 type="checkbox"
-                id="rememberMe"
-                value={rememberMe}
-                onChange={this.handleChange('rememberMe')}
+                id="rememberLogin"
+                checked={rememberLogin}
+                onChange={this.handleChange('rememberLogin')}
               />
               Remember me
             </label>
@@ -95,16 +104,11 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  loginError: state.userReducer.loginError,
-});
-
 const mapDispatchToProps = dispatch => ({
   dispatchLogIn: (username, password) => dispatch(logIn(username, password)),
-  resetLoginErrors: () => dispatch({ type: USER.LOGIN.RESET_ERRORS }),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(Login);

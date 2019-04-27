@@ -15,7 +15,6 @@ import NotLoggedLayout from './NotLoggedLayout';
  *
  * @prop {*} isLoggedIn Informatin about user's logged-in state
  */
-
 const renderRouter = isLoggedIn => {
   if (!isLoggedIn) {
     return (
@@ -33,6 +32,8 @@ const renderRouter = isLoggedIn => {
     <LoggedInLayout>
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route path="/login" component={redirectToHome} />
+        <Route path="/sign-up" component={redirectToHome} />
         <PrivateRoute
           path="/wishlists/:wishlistId"
           component={WishlistDetail}
@@ -57,6 +58,9 @@ function Routes({ isLoggedIn }) {
     </>
   );
 }
+
+/** Redirect to Home page if a logged in user navigates to /login or /sign-up */
+const redirectToHome = () => <Redirect to={{ pathname: '/' }} />;
 
 /**
  * This component automatically redirects unauthenticated users to the Login page

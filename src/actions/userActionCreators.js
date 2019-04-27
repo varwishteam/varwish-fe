@@ -1,7 +1,7 @@
 import api from '../utils/api';
 import { USER } from './userActions';
 
-export const logIn = (username, password) => dispatch => {
+export const logIn = ({ username, password, rememberLogin }) => dispatch => {
   return api
     .post(api.ENDPOINTS.LOGIN, { username, password })
     .then(response => {
@@ -11,14 +11,13 @@ export const logIn = (username, password) => dispatch => {
           payload: {
             id: response.user,
             key: response.key,
+            rememberLogin: rememberLogin,
           },
         });
       } else {
         dispatch({
           type: USER.LOGIN.ERROR,
-          payload: {
-            error: response,
-          },
+          payload: response,
         });
       }
     });
