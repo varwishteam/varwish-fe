@@ -15,7 +15,7 @@ import NotLoggedLayout from './NotLoggedLayout';
  *
  * @prop {*} isLoggedIn Informatin about user's logged-in state
  */
-const renderRouter = isLoggedIn => {
+function Routes({ isLoggedIn }) {
   if (!isLoggedIn) {
     return (
       <NotLoggedLayout>
@@ -23,6 +23,7 @@ const renderRouter = isLoggedIn => {
           <Route exact path="/" component={Home} />
           <Route path="/login" component={Login} />
           <Route path="/sign-up" component={SignUp} />
+          <Route component={NotFound} />
         </Switch>
       </NotLoggedLayout>
     );
@@ -34,6 +35,7 @@ const renderRouter = isLoggedIn => {
         <Route exact path="/" component={Home} />
         <Route path="/login" component={redirectToHome} />
         <Route path="/sign-up" component={redirectToHome} />
+        <Route exact path="/wishlists" component={redirectToHome} />
         <PrivateRoute
           path="/wishlists/:wishlistId"
           component={WishlistDetail}
@@ -43,19 +45,9 @@ const renderRouter = isLoggedIn => {
           path="/wishlists/:wishlistId/items/:itemId"
           component={ItemDetail}
         /> */}
-      </Switch>
-    </LoggedInLayout>
-  );
-};
-
-function Routes({ isLoggedIn }) {
-  return (
-    <>
-      <Switch>
-        {renderRouter(isLoggedIn)}
         <Route component={NotFound} />
       </Switch>
-    </>
+    </LoggedInLayout>
   );
 }
 
