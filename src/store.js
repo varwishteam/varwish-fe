@@ -2,7 +2,7 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
-import { userReducer, wishlistsReducer } from './reducers';
+import { userReducer, wishlistsReducer, modalReducer } from './reducers';
 import { reducer as formReducer } from 'redux-form';
 import { addAuthTokenMiddleware } from './utils/addAuthTokenMiddleware';
 /**
@@ -12,27 +12,34 @@ import { addAuthTokenMiddleware } from './utils/addAuthTokenMiddleware';
 const rootReducer = combineReducers({
   wishlistsReducer,
   userReducer,
+  modalReducer,
   form: formReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
+  blacklist: ['modalReducer', 'form'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+const initialState = {
+  userReducer: {
+    isLoggedIn: false,
+    user: {},
+  },
+  wishlistsReducer: {
+    wishlists: [],
+  },
+  modalReducer: {
+    openModal: null,
+  },
+};
+
 export const store = createStore(
   persistedReducer,
-  {
-    userReducer: {
-      isLoggedIn: false,
-      user: {},
-    },
-    wishlistsReducer: {
-      wishlists: [],
-    },
-  },
+  initialState,
   compose(
     applyMiddleware(thunk, addAuthTokenMiddleware),
     window.__REDUX_DEVTOOLS_EXTENSION__

@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getAllWishlists } from '../actions';
+import { getAllWishlists, openModal, MODAL_TYPE } from '../actions';
+import WishlistForm from '../components/modal/WishlistForm';
+import { Modal } from '../components';
 
 const renderWishlists = wishlists => {
   return wishlists.map(wishlist => (
@@ -22,7 +24,7 @@ class Home extends Component {
   }
 
   render() {
-    const { isLoggedIn, wishlists } = this.props;
+    const { isLoggedIn, wishlists, openWishlistCreateModal } = this.props;
 
     if (isLoggedIn) {
       return (
@@ -30,13 +32,16 @@ class Home extends Component {
           <button
             type="button"
             className="btn btn-dark w-50"
-            data-toggle="modal"
-            data-target="#createWishlistModal"
+            onClick={openWishlistCreateModal}
           >
             <i className="material-icons">add</i>
             New Wishlist
           </button>
           {wishlists && renderWishlists(wishlists)}
+
+          <Modal title="New wishlist" modalType={MODAL_TYPE.WISHLIST.CREATE}>
+            <WishlistForm />
+          </Modal>
         </main>
       );
     } else {
@@ -53,6 +58,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getAllWishlists: () => dispatch(getAllWishlists()),
+  openWishlistCreateModal: () =>
+    dispatch(openModal(MODAL_TYPE.WISHLIST.CREATE)),
 });
 
 export default connect(
