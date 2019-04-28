@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { SpinningLoader } from '../components';
+// import { SpinningLoader } from '../components';
 import { signUp, USER } from '../actions';
 import './sign-up/SignUp.scss';
 
