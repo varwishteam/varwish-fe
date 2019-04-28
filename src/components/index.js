@@ -5,3 +5,4 @@ export { default as Modal } from './Modal';
 export { CreateWishlistForm, UpdateWishlistForm } from './modal/WishlistForm';
 export { CreateItemForm, UpdateItemForm } from './modal/ItemForm';
 export { default as FormField } from './FormField';
+export { default as WishlistCard } from './WishlistCard';

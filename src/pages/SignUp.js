@@ -17,6 +17,7 @@ class SignUp extends Component {
     passwordSet: '',
     passwordConfirm: '',
     errors: {},
+    signUpErrors: [],
   };
 
   componentWillMount() {
@@ -25,7 +26,20 @@ class SignUp extends Component {
 
   handleSignUp = e => {
     e.preventDefault();
-    this.props.dispatchSignUp({ ...this.state });
+    this.setState({
+      isLoading: true,
+    });
+    this.props
+      .dispatchSignUp({ ...this.state })
+      .then(() => {
+        this.setState({ isLoading: false });
+      })
+      .catch(error => {
+        this.setState({
+          signUpErrors: [...Object.values(error)],
+          isLoading: false,
+        });
+      });
   };
 
   handleChange = name => event => {
@@ -40,17 +54,18 @@ class SignUp extends Component {
       email,
       firstName,
       lastName,
+      signUpErrors,
+      isLoading,
     } = this.state;
-    const { signUpError } = this.props;
 
     return (
       <div className="wrapper">
         <form className="form-signup">
           <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
 
-          {signUpError && (
+          {!!signUpErrors.length && (
             <div className="alert alert-danger" role="alert">
-              {signUpError}
+              Invalid values
             </div>
           )}
 
@@ -125,7 +140,7 @@ class SignUp extends Component {
             className="btn btn-lg btn-primary btn-block btn-outline mt-3"
             onClick={this.handleSignUp}
           >
-            Sign-Up
+            {isLoading ? <SpinningLoader /> : 'Sign-Up'}
           </button>
         </form>
       </div>
@@ -133,16 +148,12 @@ class SignUp extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  signUpError: state.userReducer.signUpError,
-});
-
 const mapDispatchToProps = dispatch => ({
   dispatchSignUp: data => dispatch(signUp(data)),
   resetSignUpErrors: () => dispatch({ type: USER.SIGN_UP.RESET_ERRORS }),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(SignUp);
