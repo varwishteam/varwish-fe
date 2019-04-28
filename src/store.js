@@ -34,6 +34,7 @@ const initialState = {
   },
   modalReducer: {
     openedModal: null,
+    currentlyEditedItem: {},
   },
 };
 

@@ -1,17 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { deleteWishlist, MODAL_TYPE, openModal } from '../actions';
+import {
+  deleteWishlist,
+  MODAL_TYPE,
+  openModal,
+  deleteItem,
+  getWishlist,
+} from '../actions';
 import { withRouter } from 'react-router-dom';
-import { Modal, UpdateWishlistForm } from '../components';
+import {
+  Modal,
+  UpdateWishlistForm,
+  CreateItemForm,
+  UpdateItemForm,
+} from '../components';
 
 /**
  * Wishlist detailed view, with options to edit/detele the wishlist and manage it's items, tags etc.
  */
 class WishlistDetail extends Component {
+  componentDidMount() {
+    this.props.getWishlist();
+  }
+
   renderItems = items => {
     return (
       <>
-        <p className="h6 text-muted">Items:</p>
         <ul className="list-unstyled">
           {items.map((item, i) => (
             <li
@@ -20,13 +34,21 @@ class WishlistDetail extends Component {
             >
               <span>{item.item_name}</span>
               <div className="flex-grow-1" />
-              <button type="button" className="btn text-info bmd-btn-icon">
+              {/* <button type="button" className="btn text-secondary bmd-btn-icon">
                 <i className="material-icons">info</i>
-              </button>
-              <button type="button" className="btn bmd-btn-icon">
+              </button> */}
+              <button
+                type="button"
+                className="btn text-secondary bmd-btn-icon"
+                onClick={() => this.props.openUpdateItemModal(item)}
+              >
                 <i className="material-icons">edit</i>
               </button>
-              <button type="button" className="btn text-danger bmd-btn-icon">
+              <button
+                type="button"
+                className="btn text-secondary bmd-btn-icon"
+                onClick={() => this.handleDeleteItem(item)}
+              >
                 <i className="material-icons">delete</i>
               </button>
             </li>
@@ -36,12 +58,18 @@ class WishlistDetail extends Component {
     );
   };
 
+  handleDeleteItem = item => {
+    item.wishlist = this.props.wishlist.id;
+    this.props.dispatchDeleteItem(item).then(() => this.forceUpdate());
+  };
+
   render() {
     const {
       match,
       openWishlistUpdateModal,
       wishlist,
       dispatchDeleteWishlist,
+      openCreateItemModal,
     } = this.props;
 
     return (
@@ -61,7 +89,7 @@ class WishlistDetail extends Component {
               >
                 <button
                   type="button"
-                  className="btn btn-success"
+                  className="btn btn-secondary btn-icon"
                   onClick={openWishlistUpdateModal}
                 >
                   <i className="material-icons">edit</i>
@@ -70,7 +98,7 @@ class WishlistDetail extends Component {
 
                 <button
                   type="button"
-                  className="btn btn-danger"
+                  className="btn btn-danger btn-icon"
                   data-toggle="snackbar"
                   data-content={`Wishlist ${wishlist.name} deleted`}
                   data-html-allowed="true"
@@ -86,6 +114,13 @@ class WishlistDetail extends Component {
             <span className="h6 text-muted">Description:</span>
             <p>{wishlist.description}</p>
 
+            <p className="h6 text-muted">Items:</p>
+            <button
+              className="btn btn-raised btn-primary btn-icon"
+              onClick={openCreateItemModal}
+            >
+              <i className="material-icons">add</i>New item
+            </button>
             {wishlist.items && this.renderItems(wishlist.items)}
 
             <Modal
@@ -93,6 +128,18 @@ class WishlistDetail extends Component {
               modalType={MODAL_TYPE.WISHLIST.UPDATE}
             >
               <UpdateWishlistForm wishlist={wishlist} />
+            </Modal>
+            <Modal title="New item" modalType={MODAL_TYPE.ITEM.CREATE}>
+              <CreateItemForm wishlistId={wishlist.id} />
+            </Modal>
+            <Modal
+              title={`Editing ${this.props.currentlyEditedItem.item_name}`}
+              modalType={MODAL_TYPE.ITEM.UPDATE}
+            >
+              <UpdateItemForm
+                wishlistId={wishlist.id}
+                item={this.props.currentlyEditedItem}
+              />
             </Modal>
           </>
         )}
@@ -106,9 +153,11 @@ const mapStateToProps = (state, ownProps) => ({
     return wishlist.id === ownProps.match.params.wishlistId;
   })[0],
   openedModal: state.modalReducer.openedModal,
+  currentlyEditedItem: state.modalReducer.currentlyEditedItem,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  getWishlist: () => dispatch(getWishlist(ownProps.match.params.wishlistId)),
   dispatchDeleteWishlist: wishlist => {
     dispatch(deleteWishlist(wishlist)).then(() => {
       ownProps.history.push('/');
@@ -116,6 +165,10 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   },
   openWishlistUpdateModal: () =>
     dispatch(openModal(MODAL_TYPE.WISHLIST.UPDATE)),
+  openCreateItemModal: () => dispatch(openModal(MODAL_TYPE.ITEM.CREATE)),
+  openUpdateItemModal: item =>
+    dispatch(openModal(MODAL_TYPE.ITEM.UPDATE, item)),
+  dispatchDeleteItem: item => dispatch(deleteItem(item)),
 });
 
 export default withRouter(

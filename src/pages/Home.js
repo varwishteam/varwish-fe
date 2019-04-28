@@ -34,7 +34,7 @@ class Home extends Component {
         <main className="d-flex flex-row flex-wrap">
           <button
             type="button"
-            className="btn btn-dark w-50"
+            className="btn btn-dark w-50 btn-icon"
             onClick={openWishlistCreateModal}
           >
             <i className="material-icons">add</i>

@@ -44,3 +44,10 @@ code {
 .flex-shrink-1 {
   flex-shrink: 1;
 }
+
+/* Vertically align icon and text in bootstrap button */
+.btn-icon {
+  display: inline-flex;
+  vertical-align: middle;
+  line-height: 24px;
+}

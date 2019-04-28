@@ -34,7 +34,7 @@ export const getAllWishlists = () => (dispatch, getState) => {
 
 export const getWishlist = wishlistId => (dispatch, getState) => {
   return api
-    .get(api.ENDPOINTS.WISHLISTS, wishlistId)
+    .get(api.ENDPOINTS.WISHLISTS + '/' + wishlistId)
     .then(wishlist => {
       dispatch({ type: WISHLIST.GET.SUCCESS, payload: wishlist });
       return wishlist;
@@ -67,7 +67,12 @@ export const deleteWishlist = wishlist => dispatch => {
   return api
     .delete(api.ENDPOINTS.WISHLISTS + '/' + wishlist.id)
     .then(response => {
-      dispatch({ type: WISHLIST.DELETE.SUCCESS, payload: response });
+      console.log(response);
+
+      dispatch({
+        type: WISHLIST.DELETE.SUCCESS,
+        payload: { id: wishlist.id },
+      });
       return response;
     })
     .catch(error => {

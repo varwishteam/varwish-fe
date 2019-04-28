@@ -8,11 +8,15 @@ export const MODAL_TYPE = {
     CREATE: 'WISHLIST_CREATE_MODAL',
     UPDATE: 'WISHLIST_UPDATE_MODAL',
   },
+  ITEM: {
+    CREATE: 'ITEM_CREATE_MODAL',
+    UPDATE: 'ITEM_UPDATE_MODAL',
+  },
 };
 
-export const openModal = modalName => ({
+export const openModal = (modalName, item) => ({
   type: MODAL.OPEN,
-  payload: modalName,
+  payload: { modalName, item },
 });
 
 export const closeModal = () => ({

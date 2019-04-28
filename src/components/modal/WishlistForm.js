@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { reduxForm, SubmissionError } from 'redux-form';
 import {
   createWishlist,
@@ -16,7 +16,7 @@ const validate = values => {
   return errors;
 };
 
-class WishlistForm extends React.Component {
+class CWishlistForm extends Component {
   componentWillMount() {
     const { wishlist } = this.props;
     if (wishlist) {
@@ -92,20 +92,20 @@ const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(closeModal()),
 });
 
-const WishListForm = reduxForm({
+const WishlistForm = reduxForm({
   form: 'wishlistForm',
   validate,
 })(
   connect(
     null,
     mapDispatchToProps,
-  )(WishlistForm),
+  )(CWishlistForm),
 );
 
 export const CreateWishlistForm = ({ wishlist }) => (
-  <WishListForm modalType={MODAL_TYPE.WISHLIST.CREATE} wishlist={wishlist} />
+  <WishlistForm modalType={MODAL_TYPE.WISHLIST.CREATE} wishlist={wishlist} />
 );
 
 export const UpdateWishlistForm = ({ wishlist }) => (
-  <WishListForm modalType={MODAL_TYPE.WISHLIST.UPDATE} wishlist={wishlist} />
+  <WishlistForm modalType={MODAL_TYPE.WISHLIST.UPDATE} wishlist={wishlist} />
 );

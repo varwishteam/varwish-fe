@@ -17,6 +17,7 @@ const ENDPOINTS = {
   LOGOUT: 'rest-auth/logout',
   SIGN_UP: 'sign-up',
   WISHLISTS: 'wishlists',
+  ITEMS: wishlistId => `wishlists/${wishlistId}/items`,
 };
 
 const request = (method, endpoint, data) => {
@@ -29,8 +30,10 @@ const request = (method, endpoint, data) => {
     },
     body: JSON.stringify(data),
   }).then(response => {
-    if (response.ok) return response.json();
-    else return response.json().then(error => Promise.reject(error));
+    if (response.ok) {
+      if (method === 'delete') return 'deleted';
+      else return response.json();
+    } else return response.json().then(error => Promise.reject(error));
   });
 };
 
