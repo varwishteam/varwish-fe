@@ -3,6 +3,7 @@ import { USER } from '../actions';
 
 export const addAuthTokenMiddleware = store => next => action => {
   if (action.type === USER.LOGIN.SUCCESS) api.setToken(action.payload.key);
+  if (action.type === USER.SIGN_UP.SUCCESS) api.setToken(action.payload.key);
   if (action.type === 'persist/REHYDRATE' && action.payload)
     api.setToken(action.payload.userReducer.user.key);
 
