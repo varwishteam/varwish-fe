@@ -49,7 +49,6 @@ export const signUp = ({
       last_name: lastName,
     })
     .then(response => {
-      console.log(response);
       if (response.user && response.key) {
         dispatch({
           type: USER.SIGN_UP.SUCCESS,
