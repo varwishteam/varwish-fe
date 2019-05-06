@@ -24,11 +24,11 @@ export const logIn = ({ username, password, rememberLogin }) => dispatch => {
 };
 
 export const logOut = () => dispatch => {
-  return api.post(api.ENDPOINTS.LOGOUT).then(response => {
-    dispatch({
-      type: USER.LOGOUT,
-    });
+  api.post(api.ENDPOINTS.LOGOUT);
+  dispatch({
+    type: USER.LOGOUT,
   });
+  return Promise.resolve('logged_out');
 };
 
 export const signUp = ({
