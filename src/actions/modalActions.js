@@ -3,20 +3,22 @@ export const MODAL = {
   CLOSE: 'MODAL_CLOSE',
 };
 
+function createModalTypes(entityName) {
+  return {
+    CREATE: `${entityName}_CREATE_MODAL`,
+    UPDATE: `${entityName}_UPDATE_MODAL`,
+  };
+}
+
 export const MODAL_TYPE = {
-  WISHLIST: {
-    CREATE: 'WISHLIST_CREATE_MODAL',
-    UPDATE: 'WISHLIST_UPDATE_MODAL',
-  },
-  ITEM: {
-    CREATE: 'ITEM_CREATE_MODAL',
-    UPDATE: 'ITEM_UPDATE_MODAL',
-  },
+  WISHLIST: createModalTypes('WISHLIST'),
+  ITEM: createModalTypes('ITEM'),
+  CATEGORY: createModalTypes('CATEGORY'),
 };
 
-export const openModal = (modalName, item) => ({
+export const openModal = ({ modalType, item, category }) => ({
   type: MODAL.OPEN,
-  payload: { modalName, item },
+  payload: { modalType, item, category },
 });
 
 export const closeModal = () => ({

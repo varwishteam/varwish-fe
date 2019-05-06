@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { getAllWishlists, openModal, MODAL_TYPE } from '../actions';
+import {
+  getAllWishlists,
+  getAllCategories,
+  openModal,
+  MODAL_TYPE,
+} from '../actions';
 import { Modal, CreateWishlistForm, WishlistCard } from '../components';
 
 const renderWishlists = wishlists => {
@@ -19,6 +24,7 @@ const renderWishlists = wishlists => {
 class Home extends Component {
   componentDidMount() {
     this.props.isLoggedIn && this.props.getAllWishlists();
+    this.props.isLoggedIn && this.props.getAllCategories();
   }
 
   render() {
@@ -51,13 +57,14 @@ class Home extends Component {
 const mapStateToProps = state => ({
   user: state.userReducer.user,
   isLoggedIn: state.userReducer.isLoggedIn,
-  wishlists: state.wishlistsReducer.wishlists,
+  wishlists: state.wishlists,
 });
 
 const mapDispatchToProps = dispatch => ({
   getAllWishlists: () => dispatch(getAllWishlists()),
+  getAllCategories: () => dispatch(getAllCategories()),
   openWishlistCreateModal: () =>
-    dispatch(openModal(MODAL_TYPE.WISHLIST.CREATE)),
+    dispatch(openModal({ modalType: MODAL_TYPE.WISHLIST.CREATE })),
 });
 
 export default connect(

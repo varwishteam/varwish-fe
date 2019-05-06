@@ -26,6 +26,18 @@ function Menu({ location }) {
               Wishlists
             </button>
           </Link>
+          <Link className="nav-link p-0" to="/categories">
+            <button
+              type="button"
+              className={`btn btn-primary btn-block list-group-item ${location.pathname.includes(
+                '/categories',
+              ) && 'active'}`}
+              data-toggle="drawer"
+              data-target="#main-drawer"
+            >
+              Categories
+            </button>
+          </Link>
         </li>
       </ul>
 

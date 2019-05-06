@@ -149,7 +149,7 @@ class WishlistDetail extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  wishlist: state.wishlistsReducer.wishlists.filter(wishlist => {
+  wishlist: state.wishlists.filter(wishlist => {
     return wishlist.id === ownProps.match.params.wishlistId;
   })[0],
   openedModal: state.modalReducer.openedModal,
@@ -164,10 +164,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     });
   },
   openWishlistUpdateModal: () =>
-    dispatch(openModal(MODAL_TYPE.WISHLIST.UPDATE)),
-  openCreateItemModal: () => dispatch(openModal(MODAL_TYPE.ITEM.CREATE)),
+    dispatch(openModal({ modalType: MODAL_TYPE.WISHLIST.UPDATE })),
+  openCreateItemModal: () =>
+    dispatch(openModal({ modalType: MODAL_TYPE.ITEM.CREATE })),
   openUpdateItemModal: item =>
-    dispatch(openModal(MODAL_TYPE.ITEM.UPDATE, item)),
+    dispatch(openModal({ modalType: MODAL_TYPE.ITEM.UPDATE, item })),
   dispatchDeleteItem: item => dispatch(deleteItem(item)),
 });
 

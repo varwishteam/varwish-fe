@@ -2,15 +2,18 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import thunk from 'redux-thunk';
-import { userReducer, wishlistsReducer, modalReducer } from './reducers';
+import { userReducer, modalReducer } from './reducers';
 import { reducer as formReducer } from 'redux-form';
 import { addAuthTokenMiddleware } from './utils/addAuthTokenMiddleware';
+import createReducer from './reducers/createReducer';
+
 /**
  * Redux, redux-persist, redux-thunk and Redux Dev Tools setup
  */
 
 const rootReducer = combineReducers({
-  wishlistsReducer,
+  wishlists: createReducer('WISHLIST'),
+  categories: createReducer('CATEGORY'),
   userReducer,
   modalReducer,
   form: formReducer,
@@ -29,12 +32,12 @@ const initialState = {
     isLoggedIn: false,
     user: {},
   },
-  wishlistsReducer: {
-    wishlists: [],
-  },
+  wishlists: [],
+  categories: [],
   modalReducer: {
     openedModal: null,
     currentlyEditedItem: {},
+    currentlyEditedCategory: {},
   },
 };
 

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { reduxForm, SubmissionError } from 'redux-form';
 import {
-  createWishlist,
+  createCategory,
   closeModal,
   MODAL_TYPE,
-  updateWishlist,
+  updateCategory,
 } from '../../actions';
 import FormField from '../FormField';
 import { connect } from 'react-redux';
@@ -12,45 +12,43 @@ import { connect } from 'react-redux';
 const validate = values => {
   const errors = {};
   if (!values.name) errors.name = 'Required';
-  if (!values.description) errors.description = 'Required';
+  if (!values.categoryDescription) errors.categoryDescription = 'Required';
   return errors;
 };
 
-class CWishlistForm extends Component {
+class CCategoryForm extends Component {
   componentWillMount() {
-    const { wishlist } = this.props;
-    if (wishlist) {
+    const { category } = this.props;
+    if (category) {
       this.props.initialize({
-        name: wishlist.name,
-        description: wishlist.description,
+        name: category.name,
       });
     }
   }
 
   render() {
     const {
-      wishlist: wishlistBeforeUpdate,
+      category: categoryBeforeUpdate,
       handleSubmit,
       submitting,
       pristine,
       invalid,
-      dispatchCreateWishlist,
-      dispatchUpdateWishlist,
+      dispatchCreateCategory,
+      dispatchUpdateCategory,
       closeModal,
       modalType,
     } = this.props;
 
-    const submit = wishlist => {
-      if (modalType === MODAL_TYPE.WISHLIST.CREATE) {
-        wishlist.items = [];
-        return dispatchCreateWishlist(wishlist)
+    const submit = category => {
+      if (modalType === MODAL_TYPE.CATEGORY.CREATE) {
+        return dispatchCreateCategory(category)
           .then(closeModal)
           .catch(error => {
             throw new SubmissionError(error);
           });
-      } else if (modalType === MODAL_TYPE.WISHLIST.UPDATE) {
-        wishlist.id = wishlistBeforeUpdate.id;
-        return dispatchUpdateWishlist(wishlist)
+      } else if (modalType === MODAL_TYPE.CATEGORY.UPDATE) {
+        category.id = categoryBeforeUpdate.id;
+        return dispatchUpdateCategory(category)
           .then(closeModal)
           .catch(error => {
             throw new SubmissionError(error);
@@ -59,13 +57,8 @@ class CWishlistForm extends Component {
     };
 
     return (
-      <form id="wishlistForm" onSubmit={handleSubmit(submit)} className="m-0">
-        <FormField name="name" type="text" label="Wishlist name" />
-        <FormField
-          name="description"
-          type="text"
-          label="Wishlist description"
-        />
+      <form id="categoryForm" onSubmit={handleSubmit(submit)} className="m-0">
+        <FormField name="name" type="text" label="Category name" />
         <div className="modal-footer">
           <button
             type="button"
@@ -88,25 +81,25 @@ class CWishlistForm extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  dispatchCreateWishlist: wishlist => dispatch(createWishlist(wishlist)),
-  dispatchUpdateWishlist: wishlist => dispatch(updateWishlist(wishlist)),
+  dispatchCreateCategory: category => dispatch(createCategory(category)),
+  dispatchUpdateCategory: category => dispatch(updateCategory(category)),
   closeModal: () => dispatch(closeModal()),
 });
 
-const WishlistForm = reduxForm({
-  form: 'wishlistForm',
+const CategoryForm = reduxForm({
+  form: 'categoryForm',
   validate,
 })(
   connect(
     null,
     mapDispatchToProps,
-  )(CWishlistForm),
+  )(CCategoryForm),
 );
 
-export const CreateWishlistForm = () => (
-  <WishlistForm modalType={MODAL_TYPE.WISHLIST.CREATE} />
+export const CreateCategoryForm = () => (
+  <CategoryForm modalType={MODAL_TYPE.CATEGORY.CREATE} />
 );
 
-export const UpdateWishlistForm = ({ wishlist }) => (
-  <WishlistForm modalType={MODAL_TYPE.WISHLIST.UPDATE} wishlist={wishlist} />
+export const UpdateCategoryForm = ({ category }) => (
+  <CategoryForm modalType={MODAL_TYPE.CATEGORY.UPDATE} category={category} />
 );
