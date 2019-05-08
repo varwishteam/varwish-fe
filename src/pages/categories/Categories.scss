@@ -1,0 +1,23 @@
+.categories {
+  @media (min-width: 992px) {
+    .header {
+      justify-content: center;
+      &__title {
+        font-size: 3rem;
+        font-weight: 100;
+      }
+      &__button {
+        position: absolute;
+        top: 1rem;
+        left: 3rem;
+      }
+    }
+    .main-content {
+      margin: 2rem auto;
+      max-width: 80%;
+    }
+    .list-group-item :first-child {
+      margin-right: 0;
+    }
+  }
+}

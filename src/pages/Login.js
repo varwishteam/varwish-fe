@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import { logIn } from '../actions';
 import './login/Login.scss';
 import { connect } from 'react-redux';
+import { SpinningLoader } from '../components';
 
 /**
  * Login page, a simple form with these fields: Username or Email, Password
@@ -15,12 +16,23 @@ class Login extends Component {
     rememberLogin: true,
     redirectToReferrer: false,
     loginErrors: [],
+    isLoading: false,
   };
 
   login = e => {
     e.preventDefault();
+    this.setState({
+      isLoading: true,
+    });
     this.props.dispatchLogIn({ ...this.state }).catch(error => {
-      this.setState({ loginErrors: [...Object.values(error)] });
+      window.$('.form-login').on('webkitAnimationEnd', () => {
+        window.$('.form-login').removeClass('shake');
+      });
+      window.$('.form-login').addClass('shake');
+      this.setState({
+        loginErrors: [...Object.values(error)],
+        isLoading: false,
+      });
     });
     // this.setState({ redirectToReferrer: true });
   };
@@ -40,6 +52,7 @@ class Login extends Component {
       rememberLogin,
       redirectToReferrer,
       loginErrors,
+      isLoading,
     } = this.state;
 
     if (redirectToReferrer) return <Redirect to={from} />;
@@ -92,11 +105,12 @@ class Login extends Component {
           </div>
 
           <button
+            id="log-in-btn"
             type="button"
-            className="btn btn-lg btn-primary btn-block btn-outline"
+            className="btn btn-lg btn-primary btn-block btn-outline mt-3"
             onClick={this.login}
           >
-            Log in
+            {isLoading ? <SpinningLoader /> : 'Log In'}
           </button>
         </form>
       </div>

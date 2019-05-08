@@ -5,6 +5,7 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { Home, Login, NotFound, SignUp, WishlistDetail } from '../pages';
 import LoggedInLayout from './LoggedInLayout';
 import NotLoggedLayout from './NotLoggedLayout';
+import Categories from '../pages/Categories';
 
 /**
  * All first-level routes go here
@@ -39,12 +40,8 @@ function Routes({ isLoggedIn }) {
         <PrivateRoute
           path="/wishlists/:wishlistId"
           component={WishlistDetail}
-          isLoggedIn={isLoggedIn}
         />
-        {/* <PrivateRoute
-          path="/wishlists/:wishlistId/items/:itemId"
-          component={ItemDetail}
-        /> */}
+        <PrivateRoute path="/categories" component={Categories} />
         <Route component={NotFound} />
       </Switch>
     </LoggedInLayout>
@@ -54,10 +51,17 @@ function Routes({ isLoggedIn }) {
 /** Redirect to Home page if a logged in user navigates to /login or /sign-up */
 const redirectToHome = () => <Redirect to={{ pathname: '/' }} />;
 
+const mapStateToProps = state => ({
+  isLoggedIn: state.userReducer.isLoggedIn,
+});
+
 /**
  * This component automatically redirects unauthenticated users to the Login page
  */
-function PrivateRoute({ component: Component, isLoggedIn, ...rest }) {
+const PrivateRoute = connect(
+  mapStateToProps,
+  null,
+)(function PrivateRoute({ component: Component, isLoggedIn, ...rest }) {
   return (
     <Route
       {...rest}
@@ -75,10 +79,6 @@ function PrivateRoute({ component: Component, isLoggedIn, ...rest }) {
       }
     />
   );
-}
-
-const mapStateToProps = state => ({
-  isLoggedIn: state.userReducer.isLoggedIn,
 });
 
 export default connect(

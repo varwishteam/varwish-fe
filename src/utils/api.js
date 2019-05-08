@@ -16,7 +16,8 @@ const ENDPOINTS = {
   LOGIN: 'rest-auth/login',
   LOGOUT: 'rest-auth/logout',
   SIGN_UP: 'sign-up',
-  WISHLISTS: 'wishlists',
+  WISHLIST: 'wishlists',
+  CATEGORY: 'categories',
   ITEMS: wishlistId => `wishlists/${wishlistId}/items`,
 };
 

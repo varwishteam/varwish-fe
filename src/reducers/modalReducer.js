@@ -10,12 +10,18 @@ export default function modalReducer(state = {}, action) {
     case MODAL.OPEN:
       return {
         ...state,
-        openedModal: action.payload.modalName,
+        openedModal: action.payload.modalType,
         currentlyEditedItem: action.payload.item || {},
+        currentlyEditedCategory: action.payload.category || {},
       };
 
     case MODAL.CLOSE:
-      return { ...state, openedModal: null, currentlyEditedItem: {} };
+      return {
+        ...state,
+        openedModal: null,
+        currentlyEditedItem: {},
+        currentlyEditedCategory: {},
+      };
 
     default:
       return state;

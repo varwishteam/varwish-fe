@@ -1,0 +1,17 @@
+.item-card {
+  &.card {
+    box-shadow: none;
+    background-color: inherit;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #eeeeee;
+    }
+    .card-block {
+      padding-top: 1rem;
+    }
+    h4.card-title {
+      font-weight: 400;
+    }
+  }
+}
