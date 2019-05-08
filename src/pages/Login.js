@@ -30,6 +30,10 @@ class Login extends Component {
         this.setState({ isLoading: false });
       })
       .catch(error => {
+        window.$('.form-login').addClass('shake');
+        window.$('.form-login').on('webkitAnimationEnd', () => {
+          window.$('.form-login').removeClass('shake');
+        });
         this.setState({
           loginErrors: [...Object.values(error)],
           isLoading: false,
@@ -106,19 +110,13 @@ class Login extends Component {
           </div>
 
           <button
+            id="log-in-btn"
             type="button"
             className="btn btn-lg btn-primary btn-block btn-outline mt-3"
             onClick={this.login}
           >
             {isLoading ? <SpinningLoader /> : 'Log In'}
           </button>
-          {/* <button
-            type="button"
-            className="btn btn-lg btn-primary btn-block btn-outline"
-            onClick={this.login}
-          >
-            Log in
-          </button> */}
         </form>
       </div>
     );

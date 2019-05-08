@@ -16,6 +16,12 @@ code {
 /* Icons */
 @import './icons.scss';
 
+/* Modal specific styles */
+@import './modal.scss';
+
+/* Shake animation */
+@import './shake.scss';
+
 /* Polyfilling not yet availible Bootstrap features */
 
 /* Use to set width/height of an element */

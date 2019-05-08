@@ -11,11 +11,12 @@ class Categories extends Component {
   }
 
   renderCategories = categories => (
-    <ul className="list-unstyled">
+    <ul className="list-group">
       {categories.map((category, i) => (
         <li
           key={category.id}
-          className={`d-flex flex-row ${i % 2 === 0 && 'bg-light'}`}
+          className={`d-flex flex-row list-group-item ${i % 2 === 0 &&
+            'bg-light'}`}
         >
           <span>{category.name}</span>
           <div className="flex-grow-1" />

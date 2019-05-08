@@ -16,7 +16,6 @@ import {
 } from '../components';
 import './wishlistDetail/WishlistDetail.scss';
 import ItemCard from '../components/ItemCard';
-import NavBar from '../modules/loggedInLayout/NavBar';
 
 /**
  * Wishlist detailed view, with options to edit/detele the wishlist and manage it's items, tags etc.

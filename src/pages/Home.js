@@ -11,12 +11,20 @@ import {
 import { Modal, CreateWishlistForm, WishlistCard } from '../components';
 
 const renderWishlists = wishlists => {
-  return wishlists.map(wishlist => (
-    <WishlistCard
-      key={wishlist.id || 'id-not-yet-available'}
-      wishlist={wishlist}
-    />
-  ));
+  return wishlists
+    .sort((a, b) => {
+      var nameA = a.name.toUpperCase();
+      var nameB = b.name.toUpperCase();
+      if (nameA < nameB) return -1;
+      if (nameA > nameB) return 1;
+      return 0;
+    })
+    .map(wishlist => (
+      <WishlistCard
+        key={wishlist.id || 'id-not-yet-available'}
+        wishlist={wishlist}
+      />
+    ));
 };
 
 /**
