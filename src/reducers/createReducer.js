@@ -1,9 +1,4 @@
-import { WISHLIST, CATEGORY } from '../actions';
-
-const ACTIONS = {
-  WISHLIST,
-  CATEGORY,
-};
+import { ACTIONS } from '../actions';
 
 export default function createReducer(entityName) {
   return function reducer(state = {}, action) {

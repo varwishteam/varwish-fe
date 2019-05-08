@@ -24,21 +24,16 @@ class Login extends Component {
     this.setState({
       isLoading: true,
     });
-    this.props
-      .dispatchLogIn({ ...this.state })
-      .then(() => {
-        this.setState({ isLoading: false });
-      })
-      .catch(error => {
-        window.$('.form-login').addClass('shake');
-        window.$('.form-login').on('webkitAnimationEnd', () => {
-          window.$('.form-login').removeClass('shake');
-        });
-        this.setState({
-          loginErrors: [...Object.values(error)],
-          isLoading: false,
-        });
+    this.props.dispatchLogIn({ ...this.state }).catch(error => {
+      window.$('.form-login').on('webkitAnimationEnd', () => {
+        window.$('.form-login').removeClass('shake');
       });
+      window.$('.form-login').addClass('shake');
+      this.setState({
+        loginErrors: [...Object.values(error)],
+        isLoading: false,
+      });
+    });
     // this.setState({ redirectToReferrer: true });
   };
 

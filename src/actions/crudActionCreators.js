@@ -1,5 +1,6 @@
 import api from '../utils/api';
 import { ACTIONS } from '.';
+import itemsHelper from '../utils/itemsHelper';
 
 export const create = (entityName, data) => (dispatch, getState) => {
   const endpoint =
@@ -10,7 +11,11 @@ export const create = (entityName, data) => (dispatch, getState) => {
   if (entityName === 'WISHLIST') body.user = getState().userReducer.user.id;
   return api
     .post(endpoint, body)
-    .then(response => (entityName === 'WISHLIST' ? response[0] : response))
+    .then(response =>
+      entityName === 'WISHLIST' || entityName === 'ITEM'
+        ? response[0]
+        : response,
+    )
     .then(response => {
       dispatch({ type: ACTIONS[entityName].CREATE.SUCCESS, payload: response });
       return response;
@@ -24,12 +29,18 @@ export const create = (entityName, data) => (dispatch, getState) => {
 export const getAll = entityName => (dispatch, getState) => {
   return api
     .get(api.ENDPOINTS[entityName])
-    .then(wishlists => {
+    .then(response => {
+      if (entityName === 'WISHLIST') {
+        itemsHelper(response);
+        response.forEach(wishlist => {
+          delete wishlist['items'];
+        });
+      }
       dispatch({
         type: ACTIONS[entityName].GET_ALL.SUCCESS,
-        payload: wishlists,
+        payload: response,
       });
-      return wishlists;
+      return response;
     })
     .catch(error => {
       dispatch({ type: ACTIONS[entityName].GET_ALL.ERROR, payload: error });
@@ -40,9 +51,9 @@ export const getAll = entityName => (dispatch, getState) => {
 export const getOne = (entityName, id) => (dispatch, getState) => {
   return api
     .get(api.ENDPOINTS[entityName] + '/' + id)
-    .then(wishlist => {
-      dispatch({ type: ACTIONS[entityName].GET.SUCCESS, payload: wishlist });
-      return wishlist;
+    .then(response => {
+      dispatch({ type: ACTIONS[entityName].GET.SUCCESS, payload: response });
+      return response;
     })
     .catch(error => {
       dispatch({ type: ACTIONS[entityName].GET.ERROR, payload: error });

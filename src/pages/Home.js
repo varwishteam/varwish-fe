@@ -10,7 +10,7 @@ import {
 } from '../actions';
 import { Modal, CreateWishlistForm, WishlistCard } from '../components';
 
-const renderWishlists = wishlists => {
+const renderWishlists = (wishlists, items) => {
   return wishlists
     .sort((a, b) => {
       var nameA = a.name.toUpperCase();
@@ -23,6 +23,7 @@ const renderWishlists = wishlists => {
       <WishlistCard
         key={wishlist.id || 'id-not-yet-available'}
         wishlist={wishlist}
+        items={items.filter(items => items.wishlist === wishlist.id)}
       />
     ));
 };
@@ -37,7 +38,12 @@ class Home extends Component {
   }
 
   render() {
-    const { isLoggedIn, wishlists, openWishlistCreateModal } = this.props;
+    const {
+      isLoggedIn,
+      wishlists,
+      items,
+      openWishlistCreateModal,
+    } = this.props;
 
     if (isLoggedIn) {
       return (
@@ -54,7 +60,9 @@ class Home extends Component {
             </button>
           </header>
           <main className="main-content">
-            {wishlists && wishlists.length > 0 && renderWishlists(wishlists)}
+            {wishlists &&
+              wishlists.length > 0 &&
+              renderWishlists(wishlists, items)}
           </main>
 
           <aside>
@@ -74,6 +82,7 @@ const mapStateToProps = state => ({
   user: state.userReducer.user,
   isLoggedIn: state.userReducer.isLoggedIn,
   wishlists: state.wishlists,
+  items: state.items,
 });
 
 const mapDispatchToProps = dispatch => ({

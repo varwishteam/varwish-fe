@@ -10,7 +10,7 @@ const sliceWishlistItems = wishlistItems => {
   return wishlistItems.slice(0, 5);
 };
 
-const WishlistCard = ({ wishlist }) => {
+const WishlistCard = ({ wishlist, items }) => {
   return (
     <Link to={`/wishlists/${wishlist.id}`} className="homepage-wishlist">
       <div className="card homepage-wishlist--container">
@@ -19,9 +19,9 @@ const WishlistCard = ({ wishlist }) => {
             {wishlist.name}
           </div>
           <div className="card-text homepage-wishlist--text">
-            {wishlist.items && wishlist.items.length > 0 && (
+            {items && items.length > 0 && (
               <ul>
-                {sliceWishlistItems(wishlist.items).map(wishlistItem => (
+                {sliceWishlistItems(items).map(wishlistItem => (
                   <li key={wishlistItem.id}>{wishlistItem.item_name}</li>
                 ))}
               </ul>

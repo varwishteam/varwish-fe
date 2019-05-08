@@ -14,6 +14,7 @@ import createReducer from './reducers/createReducer';
 const rootReducer = combineReducers({
   wishlists: createReducer('WISHLIST'),
   categories: createReducer('CATEGORY'),
+  items: createReducer('ITEM'),
   userReducer,
   modalReducer,
   form: formReducer,
@@ -34,6 +35,7 @@ const initialState = {
   },
   wishlists: [],
   categories: [],
+  items: [],
   modalReducer: {
     openedModal: null,
     currentlyEditedItem: {},

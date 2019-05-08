@@ -100,7 +100,7 @@ class WishlistDetail extends Component {
   };
 
   render() {
-    const { match, wishlist } = this.props;
+    const { match, wishlist, items } = this.props;
 
     return (
       <>
@@ -111,7 +111,7 @@ class WishlistDetail extends Component {
             {this.renderHeader()}
 
             <section className="items-section">
-              {wishlist.items && this.renderItems(wishlist.items)}
+              {items && this.renderItems(items)}
             </section>
 
             <aside>
@@ -145,6 +145,9 @@ const mapStateToProps = (state, ownProps) => ({
   wishlist: state.wishlists.filter(wishlist => {
     return wishlist.id === ownProps.match.params.wishlistId;
   })[0],
+  items: state.items.filter(
+    item => item.wishlist === ownProps.match.params.wishlistId,
+  ),
   openedModal: state.modalReducer.openedModal,
   currentlyEditedItem: state.modalReducer.currentlyEditedItem,
 });
