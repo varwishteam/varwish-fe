@@ -3,7 +3,8 @@ import { Redirect } from 'react-router-dom';
 import { logIn } from '../actions';
 import './login/Login.scss';
 import { connect } from 'react-redux';
-import { SpinningLoader } from '../components';
+import { SpinningLoader, FormField } from '../components';
+import { reduxForm, SubmissionError } from 'redux-form';
 
 /**
  * Login page, a simple form with these fields: Username or Email, Password
@@ -11,55 +12,37 @@ import { SpinningLoader } from '../components';
  */
 class Login extends Component {
   state = {
-    username: '',
-    password: '',
-    rememberLogin: true,
     redirectToReferrer: false,
     loginErrors: [],
-    isLoading: false,
   };
 
-  login = e => {
-    e.preventDefault();
-    this.setState({
-      isLoading: true,
-    });
-    this.props.dispatchLogIn({ ...this.state }).catch(error => {
-      window.$('.form-login').on('webkitAnimationEnd', () => {
-        window.$('.form-login').removeClass('shake');
+  login = data => {
+    return this.props.dispatchLogIn(data).catch(error => {
+      window.$('.login-form').on('webkitAnimationEnd', () => {
+        window.$('.login-form').removeClass('shake');
       });
-      window.$('.form-login').addClass('shake');
+      window.$('.login-form').addClass('shake');
       this.setState({
         loginErrors: [...Object.values(error)],
-        isLoading: false,
       });
-    });
-    // this.setState({ redirectToReferrer: true });
-  };
-
-  handleChange = name => event => {
-    this.setState({
-      [name]:
-        name === 'rememberLogin' ? event.target.checked : event.target.value,
+      throw new SubmissionError(error);
     });
   };
 
   render() {
     const { from } = this.props.location.state || { from: { pathname: '/' } };
-    const {
-      username,
-      password,
-      rememberLogin,
-      redirectToReferrer,
-      loginErrors,
-      isLoading,
-    } = this.state;
+    const { redirectToReferrer, loginErrors } = this.state;
+    const { handleSubmit, submitting, pristine, invalid } = this.props;
 
     if (redirectToReferrer) return <Redirect to={from} />;
 
     return (
       <div className="wrapper">
-        <form className="form-login">
+        <form
+          id="loginForm"
+          onSubmit={handleSubmit(this.login)}
+          className="login-form"
+        >
           <h1 className="h3 mb-3 font-weight-normal">Please log in</h1>
 
           {loginErrors.length > 0 && (
@@ -70,47 +53,16 @@ class Login extends Component {
             </div>
           )}
 
-          <div className="bmd-form-group">
-            <input
-              type="text"
-              className="form-control"
-              id="username"
-              placeholder="Username or Email"
-              value={username}
-              onChange={this.handleChange('username')}
-            />
-          </div>
-
-          <div className="bmd-form-group">
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder="Password"
-              value={password}
-              onChange={this.handleChange('password')}
-            />
-          </div>
-
-          <div className="checkbox-inline">
-            <label htmlFor="rememberLogin">
-              <input
-                type="checkbox"
-                id="rememberLogin"
-                checked={rememberLogin}
-                onChange={this.handleChange('rememberLogin')}
-              />
-              Remember me
-            </label>
-          </div>
+          <FormField name="username" type="text" label="Username" />
+          <FormField name="password" type="password" label="Password" />
+          <FormField name="rememberLogin" type="checkbox" label="Remember me" />
 
           <button
-            id="log-in-btn"
-            type="button"
+            type="submit"
             className="btn btn-lg btn-primary btn-block btn-outline mt-3"
-            onClick={this.login}
+            disabled={pristine || invalid || submitting}
           >
-            {isLoading ? <SpinningLoader /> : 'Log In'}
+            {submitting ? <SpinningLoader /> : 'Log In'}
           </button>
         </form>
       </div>
@@ -122,7 +74,19 @@ const mapDispatchToProps = dispatch => ({
   dispatchLogIn: (username, password) => dispatch(logIn(username, password)),
 });
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(Login);
+const validate = values => {
+  const errors = {};
+  if (!values.username) errors.username = 'Required';
+  if (!values.password) errors.password = 'Required';
+  return errors;
+};
+
+export default reduxForm({
+  form: 'loginForm',
+  validate,
+})(
+  connect(
+    null,
+    mapDispatchToProps,
+  )(Login),
+);
