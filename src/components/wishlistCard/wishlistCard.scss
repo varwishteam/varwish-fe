@@ -1,6 +1,17 @@
 .homepage-wishlist {
+  flex-grow: 1;
+  margin: 0.5rem;
+
+  &:focus,
+  &:hover,
+  &:visited,
+  &:link,
+  &:active {
+    text-decoration: none;
+  }
   &--container {
     width: 100%;
+    min-width: 16rem;
     text-align: left;
   }
   &--title {

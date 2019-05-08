@@ -6,11 +6,10 @@ export const create = (entityName, data) => (dispatch, getState) => {
     entityName === 'ITEM'
       ? api.ENDPOINTS.ITEMS(data.wishlist)
       : api.ENDPOINTS[entityName];
+  const body = data;
+  if (entityName === 'WISHLIST') body.user = getState().userReducer.user.id;
   return api
-    .post(endpoint, {
-      ...data,
-      user: getState().userReducer.user.id,
-    })
+    .post(endpoint, body)
     .then(response => (entityName === 'WISHLIST' ? response[0] : response))
     .then(response => {
       dispatch({ type: ACTIONS[entityName].CREATE.SUCCESS, payload: response });
@@ -56,11 +55,10 @@ export const update = (entityName, data) => (dispatch, getState) => {
     entityName === 'ITEM'
       ? api.ENDPOINTS.ITEMS(data.wishlist)
       : api.ENDPOINTS[entityName];
+  const body = data;
+  if (entityName === 'WISHLIST') body.user = getState().userReducer.user.id;
   return api
-    .put(endpoint + '/' + data.id, {
-      ...data,
-      user: getState().userReducer.user.id,
-    })
+    .put(endpoint + '/' + data.id, body)
     .then(response => {
       dispatch({ type: ACTIONS[entityName].UPDATE.SUCCESS, payload: response });
       return response;

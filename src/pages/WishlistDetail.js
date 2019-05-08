@@ -14,6 +14,9 @@ import {
   CreateItemForm,
   UpdateItemForm,
 } from '../components';
+import './wishlistDetail/WishlistDetail.scss';
+import ItemCard from '../components/ItemCard';
+import NavBar from '../modules/loggedInLayout/NavBar';
 
 /**
  * Wishlist detailed view, with options to edit/detele the wishlist and manage it's items, tags etc.
@@ -26,35 +29,69 @@ class WishlistDetail extends Component {
   renderItems = items => {
     return (
       <>
-        <ul className="list-unstyled">
+        <ul className="list-unstyled items-list">
           {items.map((item, i) => (
-            <li
-              key={item.id}
-              className={`d-flex flex-row ${i % 2 === 0 && 'bg-light'}`}
-            >
-              <span>{item.item_name}</span>
-              <div className="flex-grow-1" />
-              {/* <button type="button" className="btn text-secondary bmd-btn-icon">
-                <i className="material-icons">info</i>
-              </button> */}
-              <button
-                type="button"
-                className="btn text-secondary bmd-btn-icon"
-                onClick={() => this.props.openUpdateItemModal(item)}
-              >
-                <i className="material-icons">edit</i>
-              </button>
-              <button
-                type="button"
-                className="btn text-secondary bmd-btn-icon"
-                onClick={() => this.handleDeleteItem(item)}
-              >
-                <i className="material-icons">delete</i>
-              </button>
+            <li key={item.id}>
+              <ItemCard
+                item={item}
+                onUpdate={this.props.openUpdateItemModal}
+                onDelete={this.handleDeleteItem}
+              />
             </li>
           ))}
         </ul>
       </>
+    );
+  };
+
+  renderHeader = () => {
+    const {
+      openWishlistUpdateModal,
+      wishlist,
+      dispatchDeleteWishlist,
+      openCreateItemModal,
+    } = this.props;
+    return (
+      <div className="nav header">
+        <h1 className="nav-item header__title">{wishlist.name}</h1>
+        <p className="header__description">{wishlist.description}</p>
+        <div
+          className="btn-group d-block header__buttons header__buttons--right"
+          role="group"
+          aria-label="Wihslist actions"
+        >
+          <button
+            type="button"
+            className="btn btn-secondary btn-icon"
+            onClick={openWishlistUpdateModal}
+          >
+            <i className="material-icons">edit</i>
+            Edit
+          </button>
+
+          <button
+            type="button"
+            className="btn btn-danger btn-icon"
+            data-toggle="snackbar"
+            data-content={`Wishlist ${wishlist.name} deleted`}
+            data-html-allowed="true"
+            data-timeout="5000"
+            onClick={() => dispatchDeleteWishlist(wishlist)}
+          >
+            <i className="material-icons">delete</i>
+            Delete
+          </button>
+        </div>
+        <div className="btn-group d-block header__buttons header__buttons--left">
+          <button
+            className="btn btn-primary btn-icon new-item-btn"
+            onClick={openCreateItemModal}
+          >
+            <i className="material-icons">add</i>
+            New item
+          </button>
+        </div>
+      </div>
     );
   };
 
@@ -64,84 +101,41 @@ class WishlistDetail extends Component {
   };
 
   render() {
-    const {
-      match,
-      openWishlistUpdateModal,
-      wishlist,
-      dispatchDeleteWishlist,
-      openCreateItemModal,
-    } = this.props;
+    const { match, wishlist } = this.props;
 
     return (
       <>
         {wishlist === undefined ? (
           <p>Wishlist with id: {match.params.wishlistId} was not found!</p>
         ) : (
-          <>
-            <nav className="nav">
-              {/* <span className="h6 text-muted">Wishlist name:</span> */}
-              <h1 className="nav-item">{wishlist.name}</h1>
-              <div className="flex-grow-1" />
-              <div
-                className="btn-group d-block"
-                role="group"
-                aria-label="Wihslist actions"
+          <div className="wishlist-detail">
+            {this.renderHeader()}
+
+            <section className="items-section">
+              {wishlist.items && this.renderItems(wishlist.items)}
+            </section>
+
+            <aside>
+              <Modal
+                title={`Editing ${wishlist.name}`}
+                modalType={MODAL_TYPE.WISHLIST.UPDATE}
               >
-                <button
-                  type="button"
-                  className="btn btn-secondary btn-icon"
-                  onClick={openWishlistUpdateModal}
-                >
-                  <i className="material-icons">edit</i>
-                  Edit
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-danger btn-icon"
-                  data-toggle="snackbar"
-                  data-content={`Wishlist ${wishlist.name} deleted`}
-                  data-html-allowed="true"
-                  data-timeout="5000"
-                  onClick={() => dispatchDeleteWishlist(wishlist)}
-                >
-                  <i className="material-icons">delete</i>
-                  Delete
-                </button>
-              </div>
-            </nav>
-
-            <span className="h6 text-muted">Description:</span>
-            <p>{wishlist.description}</p>
-
-            <p className="h6 text-muted">Items:</p>
-            <button
-              className="btn btn-raised btn-primary btn-icon"
-              onClick={openCreateItemModal}
-            >
-              <i className="material-icons">add</i>New item
-            </button>
-            {wishlist.items && this.renderItems(wishlist.items)}
-
-            <Modal
-              title={`Editing ${wishlist.name}`}
-              modalType={MODAL_TYPE.WISHLIST.UPDATE}
-            >
-              <UpdateWishlistForm wishlist={wishlist} />
-            </Modal>
-            <Modal title="New item" modalType={MODAL_TYPE.ITEM.CREATE}>
-              <CreateItemForm wishlistId={wishlist.id} />
-            </Modal>
-            <Modal
-              title={`Editing ${this.props.currentlyEditedItem.item_name}`}
-              modalType={MODAL_TYPE.ITEM.UPDATE}
-            >
-              <UpdateItemForm
-                wishlistId={wishlist.id}
-                item={this.props.currentlyEditedItem}
-              />
-            </Modal>
-          </>
+                <UpdateWishlistForm wishlist={wishlist} />
+              </Modal>
+              <Modal title="New item" modalType={MODAL_TYPE.ITEM.CREATE}>
+                <CreateItemForm wishlistId={wishlist.id} />
+              </Modal>
+              <Modal
+                title={`Editing ${this.props.currentlyEditedItem.item_name}`}
+                modalType={MODAL_TYPE.ITEM.UPDATE}
+              >
+                <UpdateItemForm
+                  wishlistId={wishlist.id}
+                  item={this.props.currentlyEditedItem}
+                />
+              </Modal>
+            </aside>
+          </div>
         )}
       </>
     );

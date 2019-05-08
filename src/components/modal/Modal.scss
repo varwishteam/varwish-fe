@@ -1,39 +1,41 @@
-.modal-backdrop {
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  z-index: 1055;
-  animation: backdrop-animation 300ms ease-in-out;
-}
-
-@keyframes backdrop-animation {
-  from {
-    background-color: rgba(0, 0, 0, 0);
-  }
-  to {
+.modal {
+  .modal-backdrop {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     background-color: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    z-index: 1055;
+    animation: backdrop-animation 300ms ease-in-out;
   }
-}
 
-.modal-content {
-  z-index: 1060;
-  animation: modal-content-animation 200ms ease-out;
-}
-
-.modal-content--removing {
-  animation: modal-content-animation 200ms ease-out reverse;
-}
-
-@keyframes modal-content-animation {
-  from {
-    transform: scale(0.8);
+  @keyframes backdrop-animation {
+    from {
+      background-color: rgba(0, 0, 0, 0);
+    }
+    to {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
   }
-  to {
-    transform: scale(1);
+
+  .modal-content {
+    z-index: 1060;
+    animation: modal-content-animation 200ms ease-out;
+  }
+
+  .modal-content--removing {
+    animation: modal-content-animation 200ms ease-out reverse;
+  }
+
+  @keyframes modal-content-animation {
+    from {
+      transform: scale(0.8);
+    }
+    to {
+      transform: scale(1);
+    }
   }
 }

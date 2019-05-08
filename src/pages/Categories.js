@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { openModal, MODAL_TYPE, deleteCategory } from '../actions';
 import { Modal, UpdateCategoryForm } from '../components';
 import { CreateCategoryForm } from '../components';
+import './categories/Categories.scss';
 
 class Categories extends Component {
   componentDidMount() {
@@ -45,31 +46,37 @@ class Categories extends Component {
     const { openCategoryCreateModal, categories } = this.props;
 
     return (
-      <>
-        <button
-          type="button"
-          className="btn btn-dark w-50 btn-icon"
-          onClick={openCategoryCreateModal}
-        >
-          <i className="material-icons">add</i>
-          New Category
-        </button>
+      <div className="categories">
+        <header className="header nav">
+          <h1 className="header__title">Categories</h1>
+          <button
+            type="button"
+            className="btn btn-primary btn-icon header__button"
+            onClick={openCategoryCreateModal}
+          >
+            <i className="material-icons">add</i>
+            New Category
+          </button>
+        </header>
 
-        {categories &&
-          categories.length > 0 &&
-          this.renderCategories(categories)}
+        <main className="main-content">
+          {categories &&
+            categories.length > 0 &&
+            this.renderCategories(categories)}
+        </main>
+        <aside>
+          <Modal title="New category" modalType={MODAL_TYPE.CATEGORY.CREATE}>
+            <CreateCategoryForm />
+          </Modal>
 
-        <Modal title="New category" modalType={MODAL_TYPE.CATEGORY.CREATE}>
-          <CreateCategoryForm />
-        </Modal>
-
-        <Modal
-          title={`Editing ${this.props.currentlyEditedCategory.name}`}
-          modalType={MODAL_TYPE.CATEGORY.UPDATE}
-        >
-          <UpdateCategoryForm category={this.props.currentlyEditedCategory} />
-        </Modal>
-      </>
+          <Modal
+            title={`Editing ${this.props.currentlyEditedCategory.name}`}
+            modalType={MODAL_TYPE.CATEGORY.UPDATE}
+          >
+            <UpdateCategoryForm category={this.props.currentlyEditedCategory} />
+          </Modal>
+        </aside>
+      </div>
     );
   }
 }

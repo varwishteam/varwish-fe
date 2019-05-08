@@ -1,0 +1,33 @@
+.wishlist-detail {
+  .header {
+    align-items: center;
+    flex-direction: column;
+  }
+  .header__title {
+    font-weight: 100;
+    font-size: 3rem;
+  }
+  .header__description {
+    color: #555555;
+  }
+  .header__buttons {
+    position: absolute;
+    top: 1rem;
+  }
+  .header__buttons--left {
+    left: 3rem;
+  }
+  .header__buttons--right {
+    right: 3rem;
+  }
+  .items-section {
+    display: flex;
+    justify-content: center;
+  }
+  .items-list {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

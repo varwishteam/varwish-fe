@@ -5,12 +5,17 @@ const renderSelect = ({
   input,
   label,
   options,
+  selectedOption,
   meta: { touched, error, warning },
 }) => (
   <div className="form-group">
     <label htmlFor={input.name}>{label}</label>
     <div>
-      <select className={`form-control ${error && 'is-invalid'}`} {...input}>
+      <select
+        value={selectedOption}
+        className={`form-control ${error && 'is-invalid'}`}
+        {...input}
+      >
         {options.map(option => (
           <option key={option.id} value={option.id}>
             {option.name}
@@ -27,13 +32,14 @@ const renderSelect = ({
 /**
  * @param options An array of options, each options must have an id and a name to be displayed
  */
-export default function FormSelect({ name, label, options }) {
+export default function FormSelect({ name, label, options, selectedOption }) {
   return (
     <Field
       name={name}
       component={renderSelect}
       label={label}
       options={options}
+      selectedOption={selectedOption}
     />
   );
 }

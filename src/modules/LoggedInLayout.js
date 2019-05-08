@@ -30,7 +30,7 @@ export default function LoggedInLayout({ children }) {
           <Menu />
         </div>
         <main className="bmd-layout-content">
-          <div className="container-fluid p-4">{children}</div>
+          <div className="container-fluid p-2">{children}</div>
         </main>
       </div>
     </div>

@@ -8,7 +8,7 @@ import FormSelect from '../FormSelect';
 const validate = values => {
   const errors = {};
   if (!values.item_name) errors.item_name = 'Required';
-  if (!values.description) errors.description = 'Required';
+  if (!values.note) errors.note = 'Required';
   if (!values.link) errors.link = 'Required';
   if (!values.amount) errors.amount = 'Required';
   if (!values.price) errors.price = 'Required';
@@ -21,10 +21,11 @@ class CItemForm extends Component {
     if (item) {
       this.props.initialize({
         item_name: item.item_name,
-        description: item.description,
+        note: item.note,
         link: item.link,
         price: item.price,
         amount: item.amount,
+        category: item.category,
       });
     }
   }
@@ -53,7 +54,7 @@ class CItemForm extends Component {
             throw new SubmissionError(error);
           });
       } else if (modalType === MODAL_TYPE.ITEM.UPDATE) {
-        item.itemId = itemBeforeUpdate.id;
+        item.id = itemBeforeUpdate.id;
         return dispatchUpdateItem(item)
           .then(closeModal)
           .catch(error => {
@@ -65,11 +66,16 @@ class CItemForm extends Component {
     return (
       <form id="itemForm" onSubmit={handleSubmit(submit)} className="m-0">
         <FormField name="item_name" type="text" label="Item name" />
-        <FormField name="description" type="text" label="Note" />
+        <FormField name="note" type="text" label="Note" />
         <FormField name="link" type="url" label="Link" />
         <FormField name="price" type="number" label="Price" />
         <FormField name="amount" type="number" label="Amount" />
-        <FormSelect name="category" label="Category" options={categories} />
+        <FormSelect
+          name="category"
+          label="Category"
+          options={categories}
+          selectedOption={itemBeforeUpdate && itemBeforeUpdate.category}
+        />
 
         <div className="modal-footer">
           <button

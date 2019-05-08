@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import './home/Home.scss';
 
 import {
   getAllWishlists,
@@ -32,21 +33,28 @@ class Home extends Component {
 
     if (isLoggedIn) {
       return (
-        <main className="d-flex flex-row flex-wrap">
-          <button
-            type="button"
-            className="btn btn-dark w-50 btn-icon"
-            onClick={openWishlistCreateModal}
-          >
-            <i className="material-icons">add</i>
-            New Wishlist
-          </button>
-          {wishlists && wishlists.length > 0 && renderWishlists(wishlists)}
+        <div className="home">
+          <header className="nav header">
+            <h1 className="header__title">Wishlists</h1>
+            <button
+              type="button"
+              className="btn btn-primary btn-icon header__button"
+              onClick={openWishlistCreateModal}
+            >
+              <i className="material-icons">add</i>
+              New Wishlist
+            </button>
+          </header>
+          <main className="main-content">
+            {wishlists && wishlists.length > 0 && renderWishlists(wishlists)}
+          </main>
 
-          <Modal title="New wishlist" modalType={MODAL_TYPE.WISHLIST.CREATE}>
-            <CreateWishlistForm />
-          </Modal>
-        </main>
+          <aside>
+            <Modal title="New wishlist" modalType={MODAL_TYPE.WISHLIST.CREATE}>
+              <CreateWishlistForm />
+            </Modal>
+          </aside>
+        </div>
       );
     } else {
       return <>Not logged in</>;
