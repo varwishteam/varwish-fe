@@ -76,8 +76,10 @@ const mapDispatchToProps = dispatch => ({
 
 const validate = values => {
   const errors = {};
-  if (!values.username) errors.username = 'Required';
-  if (!values.password) errors.password = 'Required';
+  if (!values.username || values.username.trim().length < 1)
+    errors.username = 'Required';
+  if (!values.password || values.password.trim().length < 1)
+    errors.password = 'Required';
   return errors;
 };
 

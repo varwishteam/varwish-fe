@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { openModal, MODAL_TYPE, deleteCategory } from '../actions';
+import {
+  openModal,
+  MODAL_TYPE,
+  deleteCategory,
+  getAllCategories,
+} from '../actions';
 import { Modal, UpdateCategoryForm } from '../components';
 import { CreateCategoryForm } from '../components';
 import './categories/Categories.scss';
@@ -83,11 +88,13 @@ class Categories extends Component {
 }
 
 const mapStateToProps = state => ({
+  isLoggedIn: state.userReducer.isLoggedIn,
   categories: state.categories,
   currentlyEditedCategory: state.modalReducer.currentlyEditedCategory,
 });
 
 const mapDispatchToProps = dispatch => ({
+  getAllCategories: () => dispatch(getAllCategories()),
   openCategoryCreateModal: () =>
     dispatch(openModal({ modalType: MODAL_TYPE.CATEGORY.CREATE })),
   openUpdateCategoryModal: category =>

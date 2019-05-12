@@ -7,11 +7,13 @@ import FormSelect from '../FormSelect';
 
 const validate = values => {
   const errors = {};
-  if (!values.item_name) errors.item_name = 'Required';
-  if (!values.note) errors.note = 'Required';
-  if (!values.link) errors.link = 'Required';
+  if (!values.item_name || values.item_name.trim().length < 1)
+    errors.item_name = 'Required';
+  if (!values.note || values.note.trim().length < 1) errors.note = 'Required';
+  if (!values.link || values.link.trim().length < 1) errors.link = 'Required';
   if (!values.amount) errors.amount = 'Required';
   if (!values.price) errors.price = 'Required';
+  if (!values.category) errors.price = 'Required';
   return errors;
 };
 

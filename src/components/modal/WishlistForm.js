@@ -11,8 +11,8 @@ import { connect } from 'react-redux';
 
 const validate = values => {
   const errors = {};
-  if (!values.name) errors.name = 'Required';
-  if (!values.description) errors.description = 'Required';
+  if (!values.name || values.name.trim().length < 1) errors.name = 'Required';
+  if (!values.description || values.description.trim().length < 1) errors.description = 'Required';
   return errors;
 };
 
