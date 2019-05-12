@@ -26,3 +26,9 @@ function createActions(entityName) {
 export const WISHLIST = createActions('WISHLIST');
 export const CATEGORY = createActions('CATEGORY');
 export const ITEM = createActions('ITEM');
+
+export const ACTIONS = {
+  WISHLIST,
+  CATEGORY,
+  ITEM,
+};

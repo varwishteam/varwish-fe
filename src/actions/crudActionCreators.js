@@ -2,7 +2,7 @@ import api from '../utils/api';
 import { ACTIONS } from '.';
 import itemsHelper from '../utils/itemsHelper';
 
-export const create = (entityName, data) => (dispatch, getState) => {
+const create = (entityName, data) => (dispatch, getState) => {
   const endpoint =
     entityName === 'ITEM'
       ? api.ENDPOINTS.ITEMS(data.wishlist)
@@ -26,7 +26,7 @@ export const create = (entityName, data) => (dispatch, getState) => {
     });
 };
 
-export const getAll = entityName => (dispatch, getState) => {
+const getAll = entityName => (dispatch, getState) => {
   return api
     .get(api.ENDPOINTS[entityName])
     .then(response => {
@@ -48,7 +48,7 @@ export const getAll = entityName => (dispatch, getState) => {
     });
 };
 
-export const getOne = (entityName, id) => (dispatch, getState) => {
+const getOne = (entityName, id) => (dispatch, getState) => {
   return api
     .get(api.ENDPOINTS[entityName] + '/' + id)
     .then(response => {
@@ -61,7 +61,7 @@ export const getOne = (entityName, id) => (dispatch, getState) => {
     });
 };
 
-export const update = (entityName, data) => (dispatch, getState) => {
+const update = (entityName, data) => (dispatch, getState) => {
   const endpoint =
     entityName === 'ITEM'
       ? api.ENDPOINTS.ITEMS(data.wishlist)
@@ -80,7 +80,7 @@ export const update = (entityName, data) => (dispatch, getState) => {
     });
 };
 
-export const remove = (entityName, data) => dispatch => {
+const remove = (entityName, data) => dispatch => {
   const endpoint =
     entityName === 'ITEM'
       ? api.ENDPOINTS.ITEMS(data.wishlist)
@@ -101,3 +101,19 @@ export const remove = (entityName, data) => dispatch => {
       // throw error;   // FIXME: We should propagate this error and handle it in the UI (e.g. show "Delete failed" alert)
     });
 };
+
+export const createWishlist = data => create('WISHLIST', data);
+export const getWishlist = data => getOne('WISHLIST', data);
+export const getAllWishlists = () => getAll('WISHLIST');
+export const updateWishlist = data => update('WISHLIST', data);
+export const deleteWishlist = data => remove('WISHLIST', data);
+
+export const createCategory = data => create('CATEGORY', data);
+export const getCategory = data => getOne('CATEGORY', data);
+export const getAllCategories = () => getAll('CATEGORY');
+export const updateCategory = data => update('CATEGORY', data);
+export const deleteCategory = data => remove('CATEGORY', data);
+
+export const createItem = data => create('ITEM', data);
+export const updateItem = data => update('ITEM', data);
+export const deleteItem = data => remove('ITEM', data);
