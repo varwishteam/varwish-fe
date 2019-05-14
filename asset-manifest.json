@@ -1,13 +1,13 @@
 {
-  "main.css": "/varwish-fe/static/css/main.d5d93c34.chunk.css",
-  "main.js": "/varwish-fe/static/js/main.80013e6c.chunk.js",
-  "main.js.map": "/varwish-fe/static/js/main.80013e6c.chunk.js.map",
+  "main.css": "/varwish-fe/static/css/main.a159d702.chunk.css",
+  "main.js": "/varwish-fe/static/js/main.928445fa.chunk.js",
+  "main.js.map": "/varwish-fe/static/js/main.928445fa.chunk.js.map",
   "runtime~main.js": "/varwish-fe/static/js/runtime~main.dde5b4bc.js",
   "runtime~main.js.map": "/varwish-fe/static/js/runtime~main.dde5b4bc.js.map",
-  "static/js/2.03d59181.chunk.js": "/varwish-fe/static/js/2.03d59181.chunk.js",
-  "static/js/2.03d59181.chunk.js.map": "/varwish-fe/static/js/2.03d59181.chunk.js.map",
+  "static/js/2.41d24504.chunk.js": "/varwish-fe/static/js/2.41d24504.chunk.js",
+  "static/js/2.41d24504.chunk.js.map": "/varwish-fe/static/js/2.41d24504.chunk.js.map",
   "index.html": "/varwish-fe/index.html",
-  "precache-manifest.7ce4f46afdac34930727cb1fc1e866ae.js": "/varwish-fe/precache-manifest.7ce4f46afdac34930727cb1fc1e866ae.js",
+  "precache-manifest.fe3ab17472116d62c4b89a44bd956f11.js": "/varwish-fe/precache-manifest.fe3ab17472116d62c4b89a44bd956f11.js",
   "service-worker.js": "/varwish-fe/service-worker.js",
-  "static/css/main.d5d93c34.chunk.css.map": "/varwish-fe/static/css/main.d5d93c34.chunk.css.map"
+  "static/css/main.a159d702.chunk.css.map": "/varwish-fe/static/css/main.a159d702.chunk.css.map"
 }
