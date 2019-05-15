@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import './itemCard/ItemCard.scss';
 
+/**
+ * Render item data on a card to be used in a list
+ *
+ * @example <ItemCard item={item} onUpdate={someOnUpdateHandler()} onDelete={someOnDeleteHandler()} />
+ */
 export default class ItemCard extends Component {
   render() {
     const { item, onUpdate, onDelete } = this.props;

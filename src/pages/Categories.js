@@ -10,6 +10,9 @@ import { Modal, UpdateCategoryForm } from '../components';
 import { CreateCategoryForm } from '../components';
 import './categories/Categories.scss';
 
+/**
+ * Categories page
+ */
 class Categories extends Component {
   componentDidMount() {
     this.props.isLoggedIn && this.props.getAllCategories();

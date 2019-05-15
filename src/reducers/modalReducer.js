@@ -1,9 +1,12 @@
 import { MODAL } from '../actions';
 
 /**
- * Modal reducer
- * @param {*} state
- * @param {type, payload} action
+ * Handles opening, and closing modals
+ * @param {Object} state Current state
+ * @param {Object} action
+ * @param {string} action.type
+ * @param {*} action.payload
+ * @return {Object} State
  */
 export default function modalReducer(state = {}, action) {
   switch (action.type) {

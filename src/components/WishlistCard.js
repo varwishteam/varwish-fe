@@ -10,6 +10,14 @@ const sliceWishlistItems = wishlistItems => {
   return wishlistItems.slice(0, 5);
 };
 
+/**
+ * Render a card with the wishlist summary and up to 5 first items
+ *
+ * @param {Object} obj
+ * @param {Object} obj.wishlist Wishlist data
+ * @param {Array} obj.items Wishlist items
+ *
+ */
 const WishlistCard = ({ wishlist, items }) => {
   return (
     <Link to={`/wishlists/${wishlist.id}`} className="homepage-wishlist">

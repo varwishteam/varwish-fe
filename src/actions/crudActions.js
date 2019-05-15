@@ -1,3 +1,8 @@
+/**
+ * Generate Redux actions for given entity
+ *
+ * @param {string} entityName Accepted values: 'WISHLIST', 'CATEGORY' or 'ITEM'
+ */
 function createActions(entityName) {
   return {
     CREATE: {

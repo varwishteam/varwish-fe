@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 /**
  * This button displays 'Log In' when the user first comes to the page
  * and 'Log Out' when the user is logged in
+ *
+ * @example <AuthButton />
  */
 const AuthButton = withRouter(({ history, isLoggedIn, dispatchLogOut }) =>
   isLoggedIn ? (

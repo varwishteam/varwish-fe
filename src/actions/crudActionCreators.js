@@ -2,6 +2,11 @@ import api from '../utils/api';
 import { ACTIONS } from '.';
 import itemsHelper from '../utils/itemsHelper';
 
+/**
+ * Create action creator
+ * @param {string} entityName 'WISHLIST', 'CATEGORY' or 'ITEM'
+ * @param {*} data
+ */
 const create = (entityName, data) => (dispatch, getState) => {
   const endpoint =
     entityName === 'ITEM'
@@ -26,6 +31,10 @@ const create = (entityName, data) => (dispatch, getState) => {
     });
 };
 
+/**
+ * Get all action creator
+ * @param {string} entityName 'WISHLIST', 'CATEGORY' or 'ITEM'
+ */
 const getAll = entityName => (dispatch, getState) => {
   return api
     .get(api.ENDPOINTS[entityName])
@@ -48,6 +57,10 @@ const getAll = entityName => (dispatch, getState) => {
     });
 };
 
+/**
+ * Get one action creator
+ * @param {string} entityName 'WISHLIST', 'CATEGORY' or 'ITEM'
+ */
 const getOne = (entityName, id) => (dispatch, getState) => {
   return api
     .get(api.ENDPOINTS[entityName] + '/' + id)
@@ -61,6 +74,10 @@ const getOne = (entityName, id) => (dispatch, getState) => {
     });
 };
 
+/**
+ * Update action creator
+ * @param {string} entityName 'WISHLIST', 'CATEGORY' or 'ITEM'
+ */
 const update = (entityName, data) => (dispatch, getState) => {
   const endpoint =
     entityName === 'ITEM'
@@ -80,6 +97,10 @@ const update = (entityName, data) => (dispatch, getState) => {
     });
 };
 
+/**
+ * Remove action creator
+ * @param {string} entityName 'WISHLIST', 'CATEGORY' or 'ITEM'
+ */
 const remove = (entityName, data) => dispatch => {
   const endpoint =
     entityName === 'ITEM'

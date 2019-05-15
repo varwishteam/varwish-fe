@@ -1,7 +1,6 @@
 /**
  * Redux user actions
  */
-
 export const USER = {
   SIGN_UP: {
     SUCCESS: 'USER_SIGN_UP_SUCCESS',

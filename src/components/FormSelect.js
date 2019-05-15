@@ -30,7 +30,17 @@ const renderSelect = ({
 );
 
 /**
- * @param options An array of options, each options must have an id and a name to be displayed
+ * Render a redux-form FormField with validation errors and warnings
+ *
+ * @param {Object} obj
+ * @param {string} obj.name input name
+ * @param {string} obj.type input type
+ * @param {string} obj.label label
+ * @param {Array} obj.options An array of options, each options must have an id and a name to be displayed,
+ *                            each option must be an object with an id and name keys (name will be visible to users)
+ * @param {*} obj.selectedOption Option to be selected on component mount, must be an id of one of the options passed in
+ *
+ * @example <FormField name="note" type="text" label="Item note" />
  */
 export default function FormSelect({ name, label, options, selectedOption }) {
   return (

@@ -6,6 +6,15 @@ import './modal/Modal.scss';
 
 const modalRoot = document.getElementById('modal-root');
 
+/**
+ * Render a modal dialog on top of current view
+ * The modal is hidden by default, and can be displayed by dispatching a redux action of type MODAL_OPEN, with
+ * payload Object with a key of modalType equal to the modalType prop given to this modal component
+ * 
+ * @example <Modal title="Modal title" modalType={MODAL_TYPE.*}>
+              // content to be displayed within the modal
+            </Modal>
+ */
 class Modal extends Component {
   constructor(props) {
     super(props);

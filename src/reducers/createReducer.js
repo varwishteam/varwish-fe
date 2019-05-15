@@ -1,5 +1,11 @@
 import { ACTIONS } from '../actions';
 
+/**
+ * Creates a reducer for CRUD operations on given entity
+ *
+ * @param {string} entityName For example 'ITEM' or 'WISHLIST'
+ * @return {function(state: Object, action: Object): Object} Created reducer
+ */
 export default function createReducer(entityName) {
   return function reducer(state = {}, action) {
     switch (action.type) {

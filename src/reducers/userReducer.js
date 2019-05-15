@@ -3,7 +3,10 @@ import { USER } from '../actions';
 /**
  * User reducer, handles the manipulation of state for dispatched USER actions
  * @param {*} state
- * @param {type, payload} action
+ * @param {Object} action
+ * @param {string} action.type Action type
+ * @param {Object} action.payload Action payload
+ *
  */
 export default function userReducer(state = {}, action) {
   switch (action.type) {

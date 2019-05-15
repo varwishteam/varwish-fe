@@ -1,6 +1,12 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
+/**
+ * Display a 404 message
+ *
+ * @param {Object} obj
+ * @param {string} obj.location The location that the user was trying to access
+ */
 function NotFound({ location }) {
   return (
     <div className="d-flex flex-column align-items-center">
