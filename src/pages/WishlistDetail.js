@@ -34,19 +34,35 @@ class WishlistDetail extends Component {
     return (
       <>
         <ul className="list-unstyled items-list">
-          {items.map((item, i) => (
-            <li key={item.id}>
-              <ItemCard
-                item={item}
-                onUpdate={this.props.openUpdateItemModal}
-                onDelete={this.handleDeleteItem}
-                onDetail={() => {
-                  this.setState({ currentlyViewedItem: item });
-                  this.props.openItemDetailModal(item);
-                }}
+          {items && items.length > 0 ? (
+            items.map((item, i) => (
+              <li key={item.id}>
+                <ItemCard
+                  item={item}
+                  onUpdate={this.props.openUpdateItemModal}
+                  onDelete={this.handleDeleteItem}
+                  onDetail={() => {
+                    this.setState({ currentlyViewedItem: item });
+                    this.props.openItemDetailModal(item);
+                  }}
+                />
+              </li>
+            ))
+          ) : (
+            <div className="no-content">
+              <p>This wishlist contains no items... Yet.</p>
+              <p>
+                Click or tap the <strong>NEW ITEM</strong> button above to get
+                started.
+              </p>
+              <img
+                src="/img/undraw_no_data_qbuo.svg"
+                aria-hidden="true"
+                alt="Blank paper"
+                className="no-content__img"
               />
-            </li>
-          ))}
+            </div>
+          )}
         </ul>
       </>
     );
@@ -114,7 +130,15 @@ class WishlistDetail extends Component {
     return (
       <>
         {wishlist === undefined ? (
-          <p>Wishlist with id: {match.params.wishlistId} was not found!</p>
+          <div className="no-content">
+            <p>Wishlist with id: {match.params.wishlistId} was not found!</p>
+            <img
+              src="/img/undraw_not_found_60pq.svg"
+              alt="Not found"
+              aria-hidden="true"
+              className="no-content__img"
+            />
+          </div>
         ) : (
           <div className="wishlist-detail">
             {this.renderHeader()}

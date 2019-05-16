@@ -22,6 +22,9 @@ code {
 /* Shake animation */
 @import './shake.scss';
 
+/* No content (e.g. 404, empty Wishlist)*/
+@import './no-content.scss';
+
 /* Polyfilling not yet availible Bootstrap features */
 
 /* Use to set width/height of an element */

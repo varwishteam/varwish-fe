@@ -61,9 +61,23 @@ class Home extends Component {
             </button>
           </header>
           <main className="main-content">
-            {wishlists &&
-              wishlists.length > 0 &&
-              renderWishlists(wishlists, items)}
+            {wishlists && wishlists.length > 0 ? (
+              renderWishlists(wishlists, items)
+            ) : (
+              <div className="no-content">
+                <p>You have no wishlists... Yet.</p>
+                <p>
+                  Click or tap the <strong>NEW WISHLIST</strong> button above to
+                  get started.
+                </p>
+                <img
+                  src="/img/undraw_wishlist_jk8a.svg"
+                  alt="Wishlist"
+                  aria-hidden="true"
+                  className="no-content__img"
+                />
+              </div>
+            )}
           </main>
 
           <aside>

@@ -37,7 +37,13 @@ class Login extends Component {
     if (redirectToReferrer) return <Redirect to={from} />;
 
     return (
-      <div className="wrapper">
+      <div className="login wrapper">
+        <img
+          src="/img/undraw_authentication_fsn5.svg"
+          alt="Authentication"
+          aria-hidden="true"
+          className="login__img d-sm-none d-md-block"
+        />
         <form
           id="loginForm"
           onSubmit={handleSubmit(this.login)}

@@ -9,12 +9,18 @@ import { Link, withRouter } from 'react-router-dom';
  */
 function NotFound({ location }) {
   return (
-    <div className="d-flex flex-column align-items-center">
+    <div className="no-content d-flex flex-column align-items-center">
       <h1>404 - Not found</h1>
       <p>There's nothing on this path "{location.pathname}"</p>
       <Link to="/">
         <button className="btn btn-primary">Go to homepage</button>
       </Link>
+      <img
+        src="/img/undraw_not_found_60pq.svg"
+        alt="Not found"
+        aria-hidden="true"
+        className="no-content__img"
+      />
     </div>
   );
 }

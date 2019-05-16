@@ -1,0 +1,9 @@
+.no-content {
+  margin: auto;
+  text-align: center;
+  &__img {
+    height: 40vh;
+    max-width: 100vw;
+    opacity: 0.6;
+  }
+}

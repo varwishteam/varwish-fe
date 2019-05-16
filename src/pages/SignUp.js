@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { SpinningLoader } from '../components';
 import { signUp, USER } from '../actions';
-import './sign-up/SignUp.scss';
+import './signUp/SignUp.scss';
 
 /**
  * Sign up page
@@ -59,8 +59,14 @@ class SignUp extends Component {
     } = this.state;
 
     return (
-      <div className="wrapper">
-        <form className="form-signup">
+      <div className="signup wrapper">
+        <img
+          src="/img/undraw_authentication_fsn5.svg"
+          alt="Authentication"
+          aria-hidden="true"
+          className="signup__img d-sm-none d-md-block"
+        />
+        <form className="signup-form">
           <h1 className="h3 mb-3 font-weight-normal">Sign Up</h1>
 
           {!!signUpErrors.length && (

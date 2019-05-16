@@ -69,9 +69,23 @@ class Categories extends Component {
         </header>
 
         <main className="main-content">
-          {categories &&
-            categories.length > 0 &&
-            this.renderCategories(categories)}
+          {categories && categories.length > 0 ? (
+            this.renderCategories(categories)
+          ) : (
+            <div className="no-content">
+              <p>You have no categories... Yet.</p>
+              <p>
+                Click or tap the <strong>NEW CATEGORY</strong> button above to
+                get started.
+              </p>
+              <img
+                src="/img/undraw_empty_xct9.svg"
+                alt="Empty"
+                aria-hidden="true"
+                className="no-content__img"
+              />
+            </div>
+          )}
         </main>
         <aside>
           <Modal title="New category" modalType={MODAL_TYPE.CATEGORY.CREATE}>
