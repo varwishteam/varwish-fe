@@ -41,13 +41,6 @@ npm start        # will serve your app on https://localhost:3000
 - Always make sure that you run `nvm use` before starting app or adding/building packages
 - Try to remember this so you won't run into any issues
 
-## Running tests
-
-```sh
-npm test
-npm test --
-```
-
 ## Building for production
 
 Create an optimized build

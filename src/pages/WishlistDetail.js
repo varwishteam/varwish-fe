@@ -16,11 +16,16 @@ import {
 } from '../components';
 import './wishlistDetail/WishlistDetail.scss';
 import ItemCard from '../components/ItemCard';
+import ItemDetail from './wishlistDetail/ItemDetail';
 
 /**
  * Wishlist detailed view, with options to edit/detele the wishlist and manage it's items, tags etc.
  */
 class WishlistDetail extends Component {
+  state = {
+    currentlyViewedItem: {},
+  };
+
   componentDidMount() {
     this.props.getWishlist();
   }
@@ -35,6 +40,10 @@ class WishlistDetail extends Component {
                 item={item}
                 onUpdate={this.props.openUpdateItemModal}
                 onDelete={this.handleDeleteItem}
+                onDetail={() => {
+                  this.setState({ currentlyViewedItem: item });
+                  this.props.openItemDetailModal(item);
+                }}
               />
             </li>
           ))}
@@ -100,7 +109,7 @@ class WishlistDetail extends Component {
   };
 
   render() {
-    const { match, wishlist, items } = this.props;
+    const { match, wishlist, items, categories } = this.props;
 
     return (
       <>
@@ -115,6 +124,17 @@ class WishlistDetail extends Component {
             </section>
 
             <aside>
+              <Modal
+                title={this.state.currentlyViewedItem.item_name}
+                modalType={MODAL_TYPE.ITEM.DETAIL}
+              >
+                <ItemDetail
+                  item={this.state.currentlyViewedItem}
+                  categories={categories}
+                  onUpdate={this.props.openUpdateItemModal}
+                  onDelete={this.handleDeleteItem}
+                />
+              </Modal>
               <Modal
                 title={`Editing ${wishlist.name}`}
                 modalType={MODAL_TYPE.WISHLIST.UPDATE}
@@ -148,6 +168,7 @@ const mapStateToProps = (state, ownProps) => ({
   items: state.items.filter(
     item => item.wishlist === ownProps.match.params.wishlistId,
   ),
+  categories: state.categories,
   openedModal: state.modalReducer.openedModal,
   currentlyEditedItem: state.modalReducer.currentlyEditedItem,
 });
@@ -163,6 +184,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     dispatch(openModal({ modalType: MODAL_TYPE.WISHLIST.UPDATE })),
   openCreateItemModal: () =>
     dispatch(openModal({ modalType: MODAL_TYPE.ITEM.CREATE })),
+  openItemDetailModal: item =>
+    dispatch(openModal({ modalType: MODAL_TYPE.ITEM.DETAIL, item })),
   openUpdateItemModal: item =>
     dispatch(openModal({ modalType: MODAL_TYPE.ITEM.UPDATE, item })),
   dispatchDeleteItem: item => dispatch(deleteItem(item)),

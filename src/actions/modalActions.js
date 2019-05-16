@@ -13,6 +13,7 @@ function createModalTypes(entityName) {
   return {
     CREATE: `${entityName}_CREATE_MODAL`,
     UPDATE: `${entityName}_UPDATE_MODAL`,
+    DETAIL: `${entityName}_DETAIL_MODAL`,
   };
 }
 

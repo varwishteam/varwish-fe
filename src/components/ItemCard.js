@@ -8,14 +8,14 @@ import './itemCard/ItemCard.scss';
  */
 export default class ItemCard extends Component {
   render() {
-    const { item, onUpdate, onDelete } = this.props;
+    const { item, onUpdate, onDelete, onDetail } = this.props;
     return (
       <div className="item-card card w-100 m-2">
         <div className="row no-gutters">
-          <div className="col-auto">
+          <div className="col-auto" onClick={() => onDetail(item)}>
             <img src="//placehold.it/100" className="img-fluid" alt="" />
           </div>
-          <div className="col">
+          <div className="col" onClick={() => onDetail(item)}>
             <div className="card-block">
               <h4 className="card-title">{item.item_name}</h4>
               <p className="card-text">{item.note}</p>
