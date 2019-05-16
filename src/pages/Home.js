@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import LandingPage from './home/LandingPage';
 import './home/Home.scss';
 
 import {
@@ -73,7 +74,7 @@ class Home extends Component {
         </div>
       );
     } else {
-      return <>Not logged in</>;
+      return <LandingPage />;
     }
   }
 }
