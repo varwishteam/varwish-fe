@@ -16,7 +16,7 @@ function NotFound({ location }) {
         <button className="btn btn-primary">Go to homepage</button>
       </Link>
       <img
-        src="/img/undraw_not_found_60pq.svg"
+        src="/varwish-fe/img/undraw_not_found_60pq.svg"
         alt="Not found"
         aria-hidden="true"
         className="no-content__img"

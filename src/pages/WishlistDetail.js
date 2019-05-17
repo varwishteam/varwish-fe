@@ -56,7 +56,7 @@ class WishlistDetail extends Component {
                 started.
               </p>
               <img
-                src="/img/undraw_no_data_qbuo.svg"
+                src="/varwish-fe/img/undraw_no_data_qbuo.svg"
                 aria-hidden="true"
                 alt="Blank paper"
                 className="no-content__img"
@@ -133,7 +133,7 @@ class WishlistDetail extends Component {
           <div className="no-content">
             <p>Wishlist with id: {match.params.wishlistId} was not found!</p>
             <img
-              src="/img/undraw_not_found_60pq.svg"
+              src="/varwish-fe/img/undraw_not_found_60pq.svg"
               alt="Not found"
               aria-hidden="true"
               className="no-content__img"

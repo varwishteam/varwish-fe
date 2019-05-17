@@ -39,7 +39,7 @@ class Login extends Component {
     return (
       <div className="login wrapper">
         <img
-          src="/img/undraw_authentication_fsn5.svg"
+          src="/varwish-fe/img/undraw_authentication_fsn5.svg"
           alt="Authentication"
           aria-hidden="true"
           className="login__img d-sm-none d-md-block"

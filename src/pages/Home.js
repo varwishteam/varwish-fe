@@ -71,7 +71,7 @@ class Home extends Component {
                   get started.
                 </p>
                 <img
-                  src="/img/undraw_wishlist_jk8a.svg"
+                  src="/varwish-fe/img/undraw_wishlist_jk8a.svg"
                   alt="Wishlist"
                   aria-hidden="true"
                   className="no-content__img"

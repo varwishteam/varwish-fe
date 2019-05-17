@@ -79,7 +79,7 @@ class Categories extends Component {
                 get started.
               </p>
               <img
-                src="/img/undraw_empty_xct9.svg"
+                src="/varwish-fe/img/undraw_empty_xct9.svg"
                 alt="Empty"
                 aria-hidden="true"
                 className="no-content__img"
