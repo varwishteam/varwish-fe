@@ -42,7 +42,7 @@ class Login extends Component {
           src="/varwish-fe/img/undraw_authentication_fsn5.svg"
           alt="Authentication"
           aria-hidden="true"
-          className="login__img d-sm-none d-md-block"
+          className="login__img d-none d-md-block"
         />
         <form
           id="loginForm"
