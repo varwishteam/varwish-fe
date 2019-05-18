@@ -56,3 +56,16 @@ Generate HTML documentiation from JSDoc comments in the code
 ```sh
 npm run docs
 ```
+
+## Project structure
+
+We are using the [Fractal project structure](https://hackernoon.com/fractal-a-react-app-structure-for-infinite-scale-4dab943092af) and [BEM](http://getbem.com/) notation for CSS classes. We are using [React](https://reactjs.org/docs/getting-started.html) and [Redux](https://redux.js.org/) documentation and best practices and adhering to official documentaion when using other libraries, such as:
+
+- [react-router-dom](https://reacttraining.com/react-router/web/guides/quick-start)
+- [redux-form](https://redux-form.com/8.2.0/docs/gettingstarted.md/)
+- [redux-thunk](https://github.com/reduxjs/redux-thunk)
+- [redux-persist](https://github.com/rt2zz/redux-persist)
+
+## Backend/server
+
+The backend of this application is written in Python using the Djando web framework and MongoDB database. We have a RESTful API to communicate with the frontend. [More info](https://github.com/varwishteam/varwish-be).
