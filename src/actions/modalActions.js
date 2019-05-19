@@ -9,7 +9,7 @@ export const MODAL = {
 /**
  * Generates all Redux actions for given modal type
  */
-function createModalTypes(entityName) {
+export function createModalTypes(entityName) {
   return {
     CREATE: `${entityName}_CREATE_MODAL`,
     UPDATE: `${entityName}_UPDATE_MODAL`,
