@@ -1,6 +1,9 @@
 import api from './api';
 import { USER, logOut } from '../actions';
 
+/**
+ * Sets the auth token in the api handlers
+ */
 export const addAuthTokenMiddleware = store => next => action => {
   if (action.type === USER.LOGIN.SUCCESS) api.setToken(action.payload.key);
   if (action.type === USER.SIGN_UP.SUCCESS) api.setToken(action.payload.key);

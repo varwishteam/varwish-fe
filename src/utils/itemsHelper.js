@@ -1,6 +1,9 @@
 import { ITEM } from '../actions';
 import { store } from '../store';
 
+/**
+ * 
+ */
 export default function itemsHelper(wishlists) {
   let allItems = [];
   wishlists.forEach(wishlist => {

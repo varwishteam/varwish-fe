@@ -2,6 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+/**
+ * Shows only to NOT logged in users, redirects to SignUp Page
+ * @param {*} props
+ */
 const RegRedirectButton = props => {
   const { isLoggedIn } = props;
   return (

@@ -15,6 +15,10 @@ const validate = values => {
   return errors;
 };
 
+/**
+ * Handles creating and editing a category
+ * Has one field of 'category name'
+ */
 class CCategoryForm extends Component {
   componentWillMount() {
     const { category } = this.props;

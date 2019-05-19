@@ -17,6 +17,16 @@ const validate = values => {
   return errors;
 };
 
+/**
+ * Handles creating and editing Items
+ * Has the following fields:
+ * - item_name: string
+ * - note: string
+ * - link: url
+ * - price: number
+ * - amount: number
+ * - category: Category
+ */
 class CItemForm extends Component {
   componentWillMount() {
     const { item } = this.props;

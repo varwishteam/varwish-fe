@@ -21,6 +21,13 @@ const ENDPOINTS = {
   ITEMS: wishlistId => `wishlists/${wishlistId}/items`,
 };
 
+/**
+ * Send a HTTP request to the server
+ *
+ * @param {string} method HTTP method (GET, POST, PUT, DELETE)
+ * @param {string} endpoint only for example /wishlists/*, do not pass in the server url, it will be added from config
+ * @param {Object} data JSON data to be sent
+ */
 const request = (method, endpoint, data) => {
   return fetch(config.apiUrl + endpoint + '/', {
     method: method,

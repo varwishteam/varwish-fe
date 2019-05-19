@@ -12,10 +12,17 @@ import { connect } from 'react-redux';
 const validate = values => {
   const errors = {};
   if (!values.name || values.name.trim().length < 1) errors.name = 'Required';
-  if (!values.description || values.description.trim().length < 1) errors.description = 'Required';
+  if (!values.description || values.description.trim().length < 1)
+    errors.description = 'Required';
   return errors;
 };
 
+/**
+ * Handles creating and updating Wishlists
+ * Has the following fields:
+ * - name: string
+ * - description: string
+ */
 class CWishlistForm extends Component {
   componentWillMount() {
     const { wishlist } = this.props;
